@@ -1,0 +1,2343 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>H3L Showreel Studio</title>
+    <meta
+      name="description"
+      content="An interactive video portfolio for H3L project trailers."
+    />
+    <style>
+      :root {
+        --blue-950: #02143a;
+        --blue-900: #03266f;
+        --blue-800: #073b91;
+        --blue-600: #006dd9;
+        --sky: #5bd7ff;
+        --green: #14b86a;
+        --yellow: #ffd100;
+        --pink: #ff4f9a;
+        --paper: #f7fbff;
+        --ink: #0d1b2f;
+        --muted: #63718a;
+        --white: #ffffff;
+        --line: rgba(180, 207, 238, 0.36);
+        --shadow: 0 26px 80px rgba(0, 20, 70, 0.32);
+        --soft-shadow: 0 18px 44px rgba(0, 32, 95, 0.16);
+        --cursor-x: 50%;
+        --cursor-y: 18%;
+        --active-accent: #ffd100;
+        --active-accent-2: #14b86a;
+        --focus: 0 0 0 4px rgba(91, 215, 255, 0.34);
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      html {
+        scroll-behavior: smooth;
+        overflow-x: hidden;
+      }
+
+      body {
+        margin: 0;
+        color: var(--ink);
+        background: var(--blue-950);
+        font-family:
+          Inter, "Segoe UI", Roboto, Arial, Helvetica, sans-serif;
+        line-height: 1.5;
+        overflow-x: hidden;
+      }
+
+      body.modal-open {
+        overflow: hidden;
+      }
+
+      button,
+      input {
+        font: inherit;
+      }
+
+      button {
+        cursor: pointer;
+      }
+
+      img,
+      video,
+      canvas {
+        display: block;
+        max-width: 100%;
+      }
+
+      :focus-visible {
+        outline: none;
+        box-shadow: var(--focus);
+      }
+
+      .sr-only {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        overflow: hidden;
+        clip: rect(0, 0, 0, 0);
+        white-space: nowrap;
+      }
+
+      .skip-link {
+        position: fixed;
+        top: 12px;
+        left: 12px;
+        z-index: 100;
+        transform: translateY(-150%);
+        border-radius: 8px;
+        background: var(--yellow);
+        color: var(--blue-950);
+        padding: 10px 14px;
+        font-weight: 900;
+        text-decoration: none;
+      }
+
+      .skip-link:focus {
+        transform: translateY(0);
+      }
+
+      .site-shell {
+        min-height: 100vh;
+        overflow-x: hidden;
+        background:
+          radial-gradient(circle at var(--cursor-x) var(--cursor-y), rgba(91, 215, 255, 0.18), transparent 24rem),
+          linear-gradient(180deg, #031a52 0%, #02143a 42%, #f7fbff 42%, #eef9f8 100%);
+      }
+
+      .topbar {
+        position: sticky;
+        top: 0;
+        z-index: 40;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.14);
+        background: rgba(2, 20, 58, 0.78);
+        backdrop-filter: blur(18px);
+      }
+
+      .wrap {
+        width: min(1200px, calc(100% - 32px));
+        margin: 0 auto;
+      }
+
+      .nav {
+        display: flex;
+        min-height: 76px;
+        align-items: center;
+        justify-content: space-between;
+        gap: 18px;
+      }
+
+      .brand {
+        display: inline-flex;
+        align-items: center;
+        gap: 12px;
+        color: var(--white);
+        text-decoration: none;
+      }
+
+      .brand img {
+        width: 42px;
+        height: 42px;
+        border-radius: 8px;
+        background: var(--white);
+        object-fit: contain;
+        padding: 5px;
+      }
+
+      .brand strong,
+      .brand span {
+        display: block;
+      }
+
+      .brand span {
+        color: rgba(255, 255, 255, 0.66);
+        font-size: 0.78rem;
+      }
+
+      .nav-links {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+
+      .nav-links a {
+        min-height: 40px;
+        border: 1px solid rgba(255, 255, 255, 0.16);
+        border-radius: 999px;
+        color: rgba(255, 255, 255, 0.86);
+        padding: 9px 14px;
+        text-decoration: none;
+        transition:
+          background 180ms ease,
+          color 180ms ease,
+          transform 180ms ease;
+      }
+
+      .nav-links a:hover {
+        transform: translateY(-1px);
+        background: rgba(255, 255, 255, 0.12);
+        color: var(--white);
+      }
+
+      .hero {
+        position: relative;
+        isolation: isolate;
+        min-height: calc(100vh - 76px);
+        padding: 64px 0 34px;
+        color: var(--white);
+      }
+
+      .hero-grid {
+        display: grid;
+        grid-template-columns: minmax(0, 0.94fr) minmax(360px, 1.06fr);
+        gap: 46px;
+        align-items: center;
+      }
+
+      .hero-canvas {
+        position: absolute;
+        inset: 0;
+        z-index: -2;
+        width: 100%;
+        height: 100%;
+        opacity: 0.62;
+      }
+
+      .hero::after {
+        position: absolute;
+        inset: 0;
+        z-index: -1;
+        content: "";
+        background:
+          linear-gradient(90deg, rgba(255, 255, 255, 0.08) 1px, transparent 1px),
+          linear-gradient(0deg, rgba(255, 255, 255, 0.055) 1px, transparent 1px);
+        background-size: 48px 48px;
+        mask-image: linear-gradient(to bottom, black, transparent 82%);
+      }
+
+      .eyebrow {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        margin: 0 0 18px;
+        color: var(--sky);
+        font-size: 0.76rem;
+        font-weight: 950;
+        letter-spacing: 0;
+        text-transform: uppercase;
+      }
+
+      .spark {
+        width: 9px;
+        height: 9px;
+        flex: 0 0 auto;
+        border-radius: 999px;
+        background: var(--active-accent);
+        box-shadow: 0 0 0 6px color-mix(in srgb, var(--active-accent) 20%, transparent);
+      }
+
+      h1,
+      h2,
+      h3,
+      p {
+        margin-top: 0;
+      }
+
+      h1 {
+        position: relative;
+        max-width: 790px;
+        margin-bottom: 18px;
+        font-size: clamp(3.8rem, 7vw, 7.3rem);
+        line-height: 0.86;
+        letter-spacing: 0;
+      }
+
+      h1 span {
+        display: block;
+      }
+
+      h1 .outline {
+        color: transparent;
+        -webkit-text-stroke: 2px rgba(255, 255, 255, 0.68);
+      }
+
+      .hero-copy {
+        max-width: 680px;
+        margin-bottom: 28px;
+        color: rgba(255, 255, 255, 0.78);
+        font-size: 1.12rem;
+      }
+
+      .hero-actions {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 16px;
+        margin-bottom: 28px;
+      }
+
+      .primary-button,
+      .ghost-button,
+      .small-button,
+      .filter-button {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 999px;
+        font-weight: 950;
+        text-decoration: none;
+        transition:
+          transform 180ms ease,
+          background 180ms ease,
+          border-color 180ms ease,
+          color 180ms ease;
+      }
+
+      .primary-button {
+        min-height: 50px;
+        border: 0;
+        background: var(--yellow);
+        color: var(--blue-950);
+        padding: 13px 19px;
+        box-shadow: 0 16px 34px rgba(255, 209, 0, 0.22);
+      }
+
+      .primary-button:hover,
+      .ghost-button:hover,
+      .small-button:hover,
+      .filter-button:hover {
+        transform: translateY(-2px);
+      }
+
+      .ghost-button {
+        min-height: 50px;
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        background: rgba(255, 255, 255, 0.08);
+        color: var(--white);
+        padding: 12px 18px;
+      }
+
+      .ghost-button:hover {
+        background: rgba(255, 255, 255, 0.16);
+      }
+
+      .hero-search {
+        position: relative;
+        width: min(100%, 470px);
+        margin-top: 0;
+      }
+
+      .hero-search input {
+        width: 100%;
+        min-height: 54px;
+        border: 1px solid rgba(255, 255, 255, 0.22);
+        border-radius: 999px;
+        background: rgba(255, 255, 255, 0.12);
+        color: var(--white);
+        padding: 14px 18px 14px 48px;
+        outline: none;
+      }
+
+      .hero-search input::placeholder {
+        color: rgba(255, 255, 255, 0.6);
+      }
+
+      .hero-search input:focus {
+        border-color: var(--sky);
+        box-shadow: var(--focus);
+      }
+
+      .search-mark {
+        position: absolute;
+        top: 50%;
+        left: 19px;
+        width: 15px;
+        height: 15px;
+        border: 2px solid var(--sky);
+        border-radius: 50%;
+        transform: translateY(-50%);
+      }
+
+      .search-mark::after {
+        position: absolute;
+        right: -7px;
+        bottom: -5px;
+        width: 8px;
+        height: 2px;
+        border-radius: 999px;
+        background: var(--sky);
+        content: "";
+        transform: rotate(45deg);
+      }
+
+      .hero-notes {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 9px;
+        margin-top: 16px;
+        color: rgba(255, 255, 255, 0.68);
+        font-size: 0.92rem;
+      }
+
+      .hero-notes span {
+        display: inline-flex;
+        align-items: center;
+        gap: 7px;
+      }
+
+      .hero-notes span::before {
+        width: 7px;
+        height: 7px;
+        border-radius: 50%;
+        background: var(--active-accent);
+        content: "";
+      }
+
+      .screen-card {
+        position: relative;
+        overflow: hidden;
+        transform-style: preserve-3d;
+        border: 1px solid rgba(255, 255, 255, 0.18);
+        border-radius: 26px;
+        background:
+          linear-gradient(145deg, rgba(255, 255, 255, 0.18), rgba(255, 255, 255, 0.045)),
+          rgba(255, 255, 255, 0.08);
+        padding: 18px;
+        box-shadow: var(--shadow);
+        backdrop-filter: blur(18px);
+      }
+
+      .screen-card::before {
+        position: absolute;
+        inset: -1px;
+        z-index: -1;
+        border-radius: inherit;
+        background:
+          linear-gradient(135deg, color-mix(in srgb, var(--active-accent) 80%, white), transparent 36%),
+          linear-gradient(315deg, color-mix(in srgb, var(--active-accent-2) 75%, white), transparent 36%);
+        content: "";
+        filter: blur(18px);
+        opacity: 0.42;
+      }
+
+      .screen-head {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 16px;
+        margin-bottom: 14px;
+      }
+
+      .screen-head strong {
+        color: var(--white);
+        font-size: 1.15rem;
+      }
+
+      .screen-head span {
+        color: rgba(255, 255, 255, 0.66);
+        font-size: 0.88rem;
+      }
+
+      .screen-video-wrap {
+        position: relative;
+        overflow: hidden;
+        border-radius: 18px;
+        background: #000817;
+      }
+
+      .screen-video-wrap video {
+        width: 100%;
+        aspect-ratio: 16 / 9;
+        object-fit: cover;
+      }
+
+      .screen-overlay {
+        position: absolute;
+        inset: 0;
+        pointer-events: none;
+        background:
+          linear-gradient(to top, rgba(2, 20, 58, 0.42), transparent 42%),
+          radial-gradient(circle at 20% 20%, color-mix(in srgb, var(--active-accent) 18%, transparent), transparent 22rem);
+      }
+
+      .screen-footer {
+        display: grid;
+        grid-template-columns: 1fr auto;
+        gap: 16px;
+        align-items: center;
+        margin-top: 16px;
+      }
+
+      .screen-footer h2 {
+        margin-bottom: 4px;
+        color: var(--white);
+        font-size: clamp(1.5rem, 3vw, 2.35rem);
+        line-height: 1;
+      }
+
+      .screen-footer p {
+        margin-bottom: 0;
+        color: rgba(255, 255, 255, 0.7);
+      }
+
+      .stat-panel {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 1px;
+        margin-top: 34px;
+        overflow: hidden;
+        border: 1px solid rgba(255, 255, 255, 0.14);
+        border-radius: 20px;
+        background: rgba(255, 255, 255, 0.12);
+      }
+
+      .stat {
+        background: rgba(255, 255, 255, 0.075);
+        padding: 18px;
+      }
+
+      .stat strong {
+        display: block;
+        color: var(--white);
+        font-size: 1.55rem;
+      }
+
+      .stat span {
+        color: rgba(255, 255, 255, 0.66);
+        font-size: 0.86rem;
+      }
+
+      .light {
+        background:
+          radial-gradient(circle at 82% 8%, rgba(255, 209, 0, 0.16), transparent 17rem),
+          radial-gradient(circle at 12% 42%, rgba(91, 215, 255, 0.16), transparent 20rem),
+          linear-gradient(180deg, #f7fbff 0%, #eef9f8 100%);
+      }
+
+      .section {
+        padding: 70px 0;
+      }
+
+      .section-heading {
+        display: grid;
+        grid-template-columns: minmax(0, 0.8fr) minmax(300px, 0.55fr);
+        gap: 28px;
+        align-items: end;
+        margin-bottom: 26px;
+      }
+
+      .section-heading h2 {
+        margin-bottom: 0;
+        color: var(--blue-950);
+        font-size: clamp(2.45rem, 5vw, 5.2rem);
+        line-height: 0.9;
+        letter-spacing: 0;
+      }
+
+      .section-heading p {
+        margin-bottom: 0;
+        color: var(--muted);
+      }
+
+      .project-dock {
+        position: relative;
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 16px;
+        margin-bottom: 26px;
+      }
+
+      .dock-card {
+        position: relative;
+        display: grid;
+        grid-template-columns: 140px minmax(0, 1fr);
+        gap: 16px;
+        align-items: center;
+        min-height: 148px;
+        overflow: hidden;
+        border: 1px solid rgba(3, 38, 111, 0.13);
+        border-radius: 22px;
+        background: rgba(255, 255, 255, 0.84);
+        color: var(--ink);
+        padding: 12px;
+        text-align: left;
+        box-shadow: var(--soft-shadow);
+      }
+
+      .dock-card::after {
+        position: absolute;
+        inset: auto 0 0;
+        height: 5px;
+        background: var(--project-accent);
+        content: "";
+        opacity: 0;
+        transition: opacity 180ms ease;
+      }
+
+      .dock-card:hover,
+      .dock-card[aria-pressed="true"] {
+        transform: translateY(-2px);
+        border-color: color-mix(in srgb, var(--project-accent) 60%, var(--blue-800));
+        background: var(--white);
+      }
+
+      .dock-card[aria-pressed="true"]::after {
+        opacity: 1;
+      }
+
+      .dock-card img {
+        width: 100%;
+        height: 112px;
+        border-radius: 14px;
+        object-fit: cover;
+      }
+
+      .dock-card strong {
+        display: block;
+        color: var(--blue-950);
+        font-size: 1.24rem;
+        line-height: 1.1;
+      }
+
+      .dock-card span {
+        display: block;
+        color: var(--muted);
+        font-size: 0.9rem;
+      }
+
+      .theatre {
+        display: grid;
+        grid-template-columns: minmax(0, 1.42fr) minmax(320px, 0.58fr);
+        gap: 24px;
+        align-items: stretch;
+        margin-bottom: 24px;
+      }
+
+      .player-frame {
+        overflow: hidden;
+        border: 1px solid rgba(3, 38, 111, 0.14);
+        border-radius: 26px;
+        background: #000817;
+        box-shadow: var(--shadow);
+      }
+
+      .player-frame video {
+        width: 100%;
+        aspect-ratio: 16 / 9;
+        background: #000817;
+      }
+
+      .player-bar {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        padding: 14px;
+        color: var(--white);
+      }
+
+      .player-bar strong {
+        font-size: 0.94rem;
+      }
+
+      .player-actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+      }
+
+      .small-button {
+        min-height: 38px;
+        border: 1px solid rgba(255, 255, 255, 0.18);
+        background: rgba(255, 255, 255, 0.08);
+        color: var(--white);
+        padding: 8px 12px;
+      }
+
+      .small-button:hover {
+        background: rgba(255, 255, 255, 0.16);
+      }
+
+      .detail-card {
+        position: relative;
+        overflow: hidden;
+        border: 1px solid rgba(3, 38, 111, 0.14);
+        border-radius: 26px;
+        background: rgba(255, 255, 255, 0.9);
+        padding: 26px;
+        box-shadow: var(--soft-shadow);
+      }
+
+      .detail-card::before {
+        position: absolute;
+        top: 0;
+        right: 0;
+        width: 46%;
+        height: 7px;
+        border-bottom-left-radius: 999px;
+        background: var(--active-accent);
+        content: "";
+      }
+
+      .detail-card h3 {
+        margin-bottom: 10px;
+        color: var(--blue-950);
+        font-size: 2.1rem;
+        line-height: 1;
+      }
+
+      .detail-card p {
+        color: var(--muted);
+      }
+
+      .meta-grid {
+        display: grid;
+        gap: 10px;
+        margin: 22px 0;
+      }
+
+      .meta-item {
+        display: grid;
+        grid-template-columns: 94px 1fr;
+        gap: 12px;
+        border-top: 1px solid rgba(3, 38, 111, 0.13);
+        padding-top: 10px;
+      }
+
+      .meta-item span {
+        color: var(--blue-800);
+        font-size: 0.74rem;
+        font-weight: 950;
+        text-transform: uppercase;
+      }
+
+      .meta-item strong {
+        color: var(--ink);
+        font-size: 0.96rem;
+      }
+
+      .tag-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+      }
+
+      .tag {
+        border: 1px solid color-mix(in srgb, var(--active-accent) 36%, rgba(3, 38, 111, 0.14));
+        border-radius: 999px;
+        background: color-mix(in srgb, var(--active-accent) 14%, white);
+        color: var(--blue-950);
+        padding: 7px 10px;
+        font-size: 0.78rem;
+        font-weight: 950;
+      }
+
+      .conversation-panel {
+        display: grid;
+        grid-template-columns: minmax(280px, 0.68fr) minmax(0, 1.32fr);
+        gap: 24px;
+        align-items: start;
+        border: 1px solid rgba(3, 38, 111, 0.13);
+        border-radius: 26px;
+        background: rgba(255, 255, 255, 0.88);
+        padding: 24px;
+        box-shadow: var(--soft-shadow);
+      }
+
+      .comment-form {
+        display: grid;
+        gap: 12px;
+      }
+
+      .comment-form label {
+        display: grid;
+        gap: 7px;
+        color: var(--blue-950);
+        font-size: 0.82rem;
+        font-weight: 950;
+      }
+
+      .comment-form input,
+      .comment-form textarea {
+        width: 100%;
+        border: 1px solid rgba(3, 38, 111, 0.16);
+        border-radius: 16px;
+        background: var(--white);
+        color: var(--ink);
+        padding: 12px 14px;
+        outline: none;
+      }
+
+      .comment-form textarea {
+        min-height: 124px;
+        resize: vertical;
+      }
+
+      .comment-form input:focus,
+      .comment-form textarea:focus {
+        border-color: var(--blue-600);
+        box-shadow: var(--focus);
+      }
+
+      .comment-help {
+        margin: 0;
+        color: var(--muted);
+        font-size: 0.86rem;
+      }
+
+      .comment-list-wrap {
+        display: grid;
+        gap: 12px;
+      }
+
+      .comment-list-head {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+      }
+
+      .comment-list-head h3 {
+        margin-bottom: 0;
+        color: var(--blue-950);
+      }
+
+      .comment-count {
+        border-radius: 999px;
+        background: color-mix(in srgb, var(--active-accent) 18%, white);
+        color: var(--blue-950);
+        padding: 7px 10px;
+        font-size: 0.78rem;
+        font-weight: 950;
+      }
+
+      .comment-list {
+        display: grid;
+        gap: 10px;
+        max-height: 440px;
+        overflow: auto;
+        padding-right: 4px;
+      }
+
+      .comment-card {
+        border: 1px solid rgba(3, 38, 111, 0.12);
+        border-radius: 18px;
+        background: var(--white);
+        padding: 15px;
+      }
+
+      .comment-card p {
+        margin-bottom: 12px;
+        color: var(--ink);
+        font-weight: 750;
+      }
+
+      .comment-card footer {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        color: var(--muted);
+        font-size: 0.82rem;
+        font-weight: 800;
+      }
+
+      .comment-empty {
+        border: 1px dashed rgba(3, 38, 111, 0.24);
+        border-radius: 18px;
+        background: rgba(255, 255, 255, 0.6);
+        color: var(--muted);
+        padding: 18px;
+      }
+
+      .story-stage {
+        display: grid;
+        grid-template-columns: minmax(260px, 0.62fr) minmax(0, 1.38fr);
+        gap: 24px;
+        align-items: start;
+      }
+
+      .story-lead {
+        position: sticky;
+        top: 98px;
+        overflow: hidden;
+        contain: paint;
+        border-radius: 26px;
+        background: var(--blue-950);
+        color: var(--white);
+        padding: 26px;
+        box-shadow: var(--shadow);
+      }
+
+      .story-lead::after {
+        position: absolute;
+        inset: auto -15% -32% 30%;
+        height: 180px;
+        border-radius: 50%;
+        background: color-mix(in srgb, var(--active-accent) 58%, transparent);
+        content: "";
+        filter: blur(28px);
+      }
+
+      .story-lead h2 {
+        position: relative;
+        z-index: 1;
+        margin-bottom: 12px;
+        font-size: clamp(2rem, 4vw, 3.5rem);
+        line-height: 0.94;
+      }
+
+      .story-lead p {
+        position: relative;
+        z-index: 1;
+        margin-bottom: 0;
+        color: rgba(255, 255, 255, 0.72);
+      }
+
+      .story-list {
+        display: grid;
+        gap: 14px;
+      }
+
+      .story-card {
+        display: grid;
+        grid-template-columns: 76px minmax(0, 1fr);
+        gap: 18px;
+        align-items: start;
+        border: 1px solid rgba(3, 38, 111, 0.12);
+        border-radius: 22px;
+        background: rgba(255, 255, 255, 0.86);
+        padding: 20px;
+        box-shadow: 0 12px 26px rgba(0, 32, 95, 0.08);
+      }
+
+      .story-number {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 58px;
+        height: 58px;
+        border-radius: 18px;
+        background: var(--active-accent);
+        color: var(--blue-950);
+        font-weight: 950;
+      }
+
+      .story-card h3 {
+        margin-bottom: 7px;
+        color: var(--blue-950);
+        font-size: 1.25rem;
+      }
+
+      .story-card p {
+        margin-bottom: 0;
+        color: var(--muted);
+      }
+
+      .reaction-grid {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 18px;
+      }
+
+      .reaction-card {
+        position: relative;
+        min-height: 260px;
+        overflow: hidden;
+        border: 1px solid rgba(3, 38, 111, 0.13);
+        border-radius: 26px;
+        background:
+          linear-gradient(145deg, rgba(255, 255, 255, 0.96), rgba(255, 255, 255, 0.78)),
+          var(--white);
+        padding: 24px;
+        box-shadow: var(--soft-shadow);
+      }
+
+      .reaction-card::before {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 7px;
+        background: var(--reaction-accent);
+        content: "";
+      }
+
+      .quote-mark {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 42px;
+        height: 42px;
+        margin-bottom: 18px;
+        border-radius: 50%;
+        background: color-mix(in srgb, var(--reaction-accent) 18%, white);
+        color: var(--blue-950);
+        font-size: 1.8rem;
+        font-weight: 950;
+        line-height: 1;
+      }
+
+      .reaction-card blockquote {
+        margin: 0 0 22px;
+        color: var(--blue-950);
+        font-size: 1.1rem;
+        font-weight: 850;
+        line-height: 1.32;
+      }
+
+      .reaction-card figcaption {
+        color: var(--muted);
+        font-size: 0.92rem;
+        font-weight: 800;
+      }
+
+      .reaction-card small {
+        display: inline-flex;
+        margin-bottom: 10px;
+        color: var(--blue-800);
+        font-weight: 950;
+      }
+
+      .filmstrip {
+        position: relative;
+      }
+
+      .filmstrip-toolbar {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 16px;
+        margin-bottom: 18px;
+      }
+
+      .filter-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 9px;
+      }
+
+      .filter-button {
+        min-height: 40px;
+        border: 1px solid rgba(3, 38, 111, 0.16);
+        background: rgba(255, 255, 255, 0.78);
+        color: var(--blue-950);
+        padding: 9px 14px;
+      }
+
+      .filter-button[aria-pressed="true"] {
+        border-color: var(--blue-600);
+        background: var(--blue-950);
+        color: var(--white);
+      }
+
+      .project-count {
+        color: var(--muted);
+        font-weight: 850;
+      }
+
+      .gallery-grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 18px;
+      }
+
+      .project-card {
+        position: relative;
+        min-height: 430px;
+        overflow: hidden;
+        border: 0;
+        border-radius: 28px;
+        background: var(--blue-950);
+        color: var(--white);
+        padding: 0;
+        text-align: left;
+        box-shadow: var(--shadow);
+      }
+
+      .project-card img,
+      .project-card video {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition:
+          opacity 180ms ease,
+          transform 360ms ease;
+      }
+
+      .project-card video {
+        opacity: 0;
+      }
+
+      .project-card::after {
+        position: absolute;
+        inset: 0;
+        content: "";
+        background:
+          linear-gradient(to top, rgba(2, 20, 58, 0.92), rgba(2, 20, 58, 0.22) 64%, rgba(2, 20, 58, 0.08)),
+          radial-gradient(circle at 84% 18%, color-mix(in srgb, var(--project-accent) 28%, transparent), transparent 18rem);
+      }
+
+      .project-card:hover img {
+        transform: scale(1.06);
+      }
+
+      .project-card.is-previewing video {
+        opacity: 1;
+      }
+
+      .card-content {
+        position: absolute;
+        inset: auto 0 0;
+        z-index: 1;
+        padding: 26px;
+      }
+
+      .card-content h3 {
+        margin-bottom: 8px;
+        font-size: clamp(2rem, 4vw, 3.4rem);
+        line-height: 0.92;
+      }
+
+      .card-content p {
+        max-width: 540px;
+        margin-bottom: 18px;
+        color: rgba(255, 255, 255, 0.74);
+      }
+
+      .card-foot {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 14px;
+        color: var(--white);
+        font-weight: 950;
+      }
+
+      .play-chip {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        background: var(--project-accent);
+        color: var(--blue-950);
+        font-size: 0;
+      }
+
+      .play-chip::before {
+        width: 0;
+        height: 0;
+        margin-left: 4px;
+        border-top: 10px solid transparent;
+        border-bottom: 10px solid transparent;
+        border-left: 16px solid currentColor;
+        content: "";
+      }
+
+      .empty-state {
+        display: none;
+        border: 1px dashed rgba(3, 38, 111, 0.28);
+        border-radius: 20px;
+        background: rgba(255, 255, 255, 0.76);
+        padding: 28px;
+        color: var(--muted);
+      }
+
+      .empty-state.is-visible {
+        display: block;
+      }
+
+      .editor-note {
+        display: grid;
+        grid-template-columns: 1fr auto;
+        gap: 18px;
+        align-items: center;
+        border: 1px solid rgba(3, 38, 111, 0.14);
+        border-radius: 24px;
+        background: var(--white);
+        padding: 24px;
+        box-shadow: var(--soft-shadow);
+      }
+
+      .editor-note h2 {
+        margin-bottom: 6px;
+        color: var(--blue-950);
+      }
+
+      .editor-note p {
+        margin-bottom: 0;
+        color: var(--muted);
+      }
+
+      .footer {
+        background: #eef9f8;
+        color: var(--muted);
+        padding: 32px 0 42px;
+      }
+
+      .footer .wrap {
+        display: flex;
+        justify-content: space-between;
+        gap: 18px;
+      }
+
+      .toast {
+        position: fixed;
+        right: 18px;
+        bottom: 18px;
+        z-index: 100;
+        max-width: 340px;
+        transform: translateY(20px);
+        border-radius: 14px;
+        background: var(--blue-950);
+        color: var(--white);
+        padding: 13px 15px;
+        opacity: 0;
+        pointer-events: none;
+        box-shadow: var(--shadow);
+        transition:
+          opacity 180ms ease,
+          transform 180ms ease;
+      }
+
+      .toast.is-visible {
+        transform: translateY(0);
+        opacity: 1;
+      }
+
+      .cinema {
+        position: fixed;
+        inset: 0;
+        z-index: 90;
+        display: none;
+        align-items: center;
+        justify-content: center;
+        background:
+          radial-gradient(circle at 20% 16%, color-mix(in srgb, var(--active-accent) 22%, transparent), transparent 20rem),
+          rgba(2, 13, 35, 0.92);
+        padding: 22px;
+      }
+
+      .cinema.is-open {
+        display: flex;
+      }
+
+      .cinema-panel {
+        width: min(1140px, 100%);
+        max-height: calc(100vh - 44px);
+        overflow: auto;
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        border-radius: 28px;
+        background: #000817;
+        color: var(--white);
+        box-shadow: 0 26px 90px rgba(0, 0, 0, 0.42);
+      }
+
+      .cinema-head,
+      .cinema-body {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 16px;
+        padding: 16px;
+      }
+
+      .cinema-video {
+        width: 100%;
+        aspect-ratio: 16 / 9;
+        background: #000817;
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        *,
+        *::before,
+        *::after {
+          scroll-behavior: auto !important;
+          transition-duration: 1ms !important;
+          animation-duration: 1ms !important;
+        }
+      }
+
+      @media (max-width: 980px) {
+        .hero-grid,
+        .theatre,
+        .story-stage,
+        .section-heading,
+        .conversation-panel {
+          grid-template-columns: 1fr;
+        }
+
+        .stat-panel {
+          grid-template-columns: repeat(2, 1fr);
+        }
+
+        .gallery-grid,
+        .project-dock,
+        .reaction-grid {
+          grid-template-columns: 1fr;
+        }
+
+        .story-lead {
+          position: static;
+        }
+      }
+
+      @media (max-width: 720px) {
+        h1 {
+          font-size: clamp(3.1rem, 15vw, 4.35rem);
+          line-height: 0.9;
+        }
+
+        h1 .outline {
+          -webkit-text-stroke-width: 1.4px;
+        }
+
+        .nav {
+          align-items: flex-start;
+          flex-direction: column;
+          padding: 14px 0;
+        }
+
+        .nav-links {
+          width: 100%;
+          overflow-x: auto;
+          padding-bottom: 3px;
+        }
+
+        .hero {
+          min-height: auto;
+          padding-top: 44px;
+        }
+
+        .hero-actions,
+        .primary-button,
+        .ghost-button,
+        .hero-search {
+          width: 100%;
+        }
+
+        .hero-actions {
+          gap: 12px;
+          margin-bottom: 24px;
+        }
+
+        .screen-card,
+        .player-frame,
+        .detail-card,
+        .project-card,
+        .story-lead,
+        .editor-note {
+          border-radius: 20px;
+        }
+
+        .screen-footer,
+        .player-bar,
+        .filmstrip-toolbar,
+        .editor-note,
+        .footer .wrap,
+        .cinema-head,
+        .cinema-body {
+          display: flex;
+          align-items: flex-start;
+          flex-direction: column;
+        }
+
+        .stat-panel,
+        .dock-card,
+        .story-card {
+          grid-template-columns: 1fr;
+        }
+
+        .dock-card img {
+          height: 160px;
+        }
+
+        .project-card {
+          min-height: 470px;
+        }
+
+        .card-content {
+          padding: 22px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <a class="skip-link" href="#main-content">Skip to project library</a>
+    <div class="site-shell">
+      <header class="topbar">
+        <nav class="nav wrap" aria-label="Project reel navigation">
+          <a class="brand" href="#top" aria-label="H3L Showreel Studio home">
+            <img src="assets/brand/h3l-logo.png" alt="H3L logo" />
+            <span>
+              <strong>H3L Showreel Studio</strong>
+              <span>Portfolio for every H3L team</span>
+            </span>
+          </a>
+          <div class="nav-links">
+            <a href="#screening">Watch</a>
+            <a href="#story">Story</a>
+            <a href="#reactions">Reactions</a>
+            <a href="#gallery">Gallery</a>
+            <a href="#edit">Add videos</a>
+          </div>
+        </nav>
+      </header>
+
+      <main id="main-content">
+        <section class="hero" id="top" aria-labelledby="page-title">
+          <canvas class="hero-canvas" id="vitalityCanvas" aria-hidden="true"></canvas>
+          <div class="wrap hero-grid">
+            <div>
+              <p class="eyebrow"><span class="spark"></span> Interactive project reels</p>
+              <h1 id="page-title">
+                <span>H3L</span>
+                <span class="outline">Showreel</span>
+                <span>Studio</span>
+              </h1>
+              <p class="hero-copy">
+                A cinematic portfolio wall for H3L trailers from every team. Pick a project,
+                watch the reel, scan the story, and copy a direct link when the work needs to travel.
+              </p>
+              <div class="hero-actions">
+                <a class="primary-button" href="#screening">Enter the studio</a>
+                <button class="ghost-button" type="button" id="heroCinemaButton">Launch cinema mode</button>
+              </div>
+              <label class="hero-search">
+                <span class="search-mark" aria-hidden="true"></span>
+                <span class="sr-only">Search project videos</span>
+                <input id="projectSearch" type="search" placeholder="Search project, purpose, team, or story" />
+              </label>
+              <div class="hero-notes" aria-label="Experience highlights">
+                <span>Built for H3L teams</span>
+                <span>Keyboard accessible</span>
+                <span>Real trailer media</span>
+              </div>
+            </div>
+
+            <aside class="screen-card tilt-card" aria-label="Featured project preview">
+              <div class="screen-head">
+                <span>
+                  <strong id="heroProjectTitle">Design Library</strong>
+                  <span id="heroProjectKicker">Featured reel</span>
+                </span>
+                <button class="ghost-button" type="button" id="heroNextButton">Next</button>
+              </div>
+              <div class="screen-video-wrap">
+                <video id="heroPreviewVideo" muted loop playsinline autoplay preload="metadata"></video>
+                <span class="screen-overlay"></span>
+              </div>
+              <div class="screen-footer">
+                <span>
+                  <h2 id="heroProjectHeadline">Reusable systems, made visible.</h2>
+                  <p id="heroProjectLine">A fast visual route into the team's project work.</p>
+                </span>
+                <a class="primary-button" href="#screening">Watch now</a>
+              </div>
+            </aside>
+          </div>
+
+          <div class="wrap stat-panel" aria-label="Gallery stats">
+            <div class="stat">
+              <strong id="statCount">2</strong>
+              <span>Project trailers</span>
+            </div>
+            <div class="stat">
+              <strong id="statMinutes">2:15</strong>
+              <span>Total watch time</span>
+            </div>
+            <div class="stat">
+              <strong>ASPX</strong>
+              <span>Active page version included</span>
+            </div>
+            <div class="stat">
+              <strong>1 link</strong>
+              <span>Each project is shareable</span>
+            </div>
+          </div>
+        </section>
+
+        <div class="light">
+          <section class="section" id="screening" aria-labelledby="screening-title">
+            <div class="wrap">
+              <div class="section-heading">
+                <div>
+                  <p class="eyebrow"><span class="spark"></span> Choose a reel</p>
+                  <h2 id="screening-title">Screening room</h2>
+                </div>
+                <p>
+                  The main experience now behaves like a studio wall: project dock first,
+                  cinematic player second, story and credits always within reach.
+                </p>
+              </div>
+
+              <div class="project-dock" id="projectDock" aria-label="Select a project"></div>
+
+              <div class="theatre">
+                <div class="player-frame">
+                  <video id="activeVideo" controls playsinline preload="metadata"></video>
+                  <div class="player-bar">
+                    <strong id="playerNowLabel">Now playing</strong>
+                    <div class="player-actions">
+                      <button class="small-button" type="button" id="cinemaButton">Cinema</button>
+                      <button class="small-button" type="button" id="copyLinkButton">Copy link</button>
+                      <button class="small-button" type="button" id="nextProjectButton">Next project</button>
+                    </div>
+                  </div>
+                </div>
+
+                <aside class="detail-card" aria-live="polite">
+                  <p class="eyebrow"><span class="spark"></span> Active project</p>
+                  <h3 id="activeTitle"></h3>
+                  <p id="activeDescription"></p>
+                  <div class="meta-grid">
+                    <div class="meta-item">
+                      <span>Purpose</span>
+                      <strong id="activePurpose"></strong>
+                    </div>
+                    <div class="meta-item">
+                      <span>People</span>
+                      <strong id="activePeople"></strong>
+                    </div>
+                    <div class="meta-item">
+                      <span>Outcome</span>
+                      <strong id="activeOutcome"></strong>
+                    </div>
+                    <div class="meta-item">
+                      <span>Runtime</span>
+                      <strong id="activeRuntime"></strong>
+                    </div>
+                  </div>
+                  <div class="tag-row" id="activeTags"></div>
+                </aside>
+              </div>
+
+              <section class="conversation-panel" aria-labelledby="conversation-title">
+                <form class="comment-form" id="commentForm">
+                  <div>
+                    <p class="eyebrow"><span class="spark"></span> Leave a comment</p>
+                    <h2 id="conversation-title">Add feedback for this reel.</h2>
+                    <p class="comment-help">
+                      Comments attach to the active project and appear in the team reactions section.
+                    </p>
+                  </div>
+                  <label>
+                    Your name
+                    <input id="commentName" name="name" autocomplete="name" maxlength="80" required />
+                  </label>
+                  <label>
+                    Team or role
+                    <input id="commentTeam" name="team" autocomplete="organization" maxlength="80" />
+                  </label>
+                  <label>
+                    Comment
+                    <textarea
+                      id="commentText"
+                      name="comment"
+                      maxlength="600"
+                      placeholder="What stood out, what should the team know, or what should we add next?"
+                      required
+                    ></textarea>
+                  </label>
+                  <button class="primary-button" type="submit">Post comment</button>
+                  <p class="comment-help">
+                    For a shared live launch, connect the comment endpoint in the settings block near the project data.
+                  </p>
+                </form>
+
+                <div class="comment-list-wrap">
+                  <div class="comment-list-head">
+                    <h3 id="activeCommentsTitle">Project comments</h3>
+                    <span class="comment-count" id="activeCommentCount">0 comments</span>
+                  </div>
+                  <div class="comment-list" id="commentList"></div>
+                </div>
+              </section>
+            </div>
+          </section>
+
+          <section class="section" id="story" aria-labelledby="story-title">
+            <div class="wrap story-stage">
+              <aside class="story-lead">
+                <p class="eyebrow"><span class="spark"></span> Story map</p>
+                <h2 id="story-title">What viewers should notice</h2>
+                <p id="storySummary">
+                  Select a project to update the story map and guide the viewer through the reel.
+                </p>
+              </aside>
+              <div class="story-list" id="storyList"></div>
+            </div>
+          </section>
+
+          <section class="section" id="reactions" aria-labelledby="reactions-title">
+            <div class="wrap">
+              <div class="section-heading">
+                <div>
+                  <p class="eyebrow"><span class="spark"></span> Team reactions</p>
+                  <h2 id="reactions-title">Comments can live here next.</h2>
+                </div>
+                <p>
+                  Once people start watching, this section is ready for short quotes from project
+                  leads, stakeholders, and teams who reused the work.
+                </p>
+              </div>
+
+              <div class="reaction-grid" id="reactionGrid" aria-label="Latest team comments"></div>
+            </div>
+          </section>
+
+          <section class="section" id="gallery" aria-labelledby="gallery-title">
+            <div class="wrap filmstrip">
+              <div class="section-heading">
+                <div>
+                  <p class="eyebrow"><span class="spark"></span> Explore</p>
+                  <h2 id="gallery-title">Project wall</h2>
+                </div>
+                <p>
+                  Large-format project cards behave like interactive posters. Hover for motion,
+                  click to send the reel into the screening room.
+                </p>
+              </div>
+
+              <div class="filmstrip-toolbar">
+                <div class="filter-row" aria-label="Filter projects">
+                  <button class="filter-button" type="button" data-filter="all" aria-pressed="true">All</button>
+                  <button class="filter-button" type="button" data-filter="design">Design</button>
+                  <button class="filter-button" type="button" data-filter="ai">AI</button>
+                </div>
+                <span class="project-count" id="projectCountLabel">2 projects showing</span>
+              </div>
+
+              <div class="gallery-grid" id="projectGrid"></div>
+              <div class="empty-state" id="emptyState">
+                No projects match that search yet. Clear the search or add another project to the data block.
+              </div>
+            </div>
+          </section>
+
+          <section class="section" id="edit" aria-labelledby="edit-title">
+            <div class="wrap">
+              <div class="editor-note">
+                <div>
+                  <h2 id="edit-title">Built to keep growing.</h2>
+                  <p>
+                    Add a video to <strong>assets/videos</strong>, add a poster to <strong>assets/posters</strong>,
+                    then copy one project object in the <strong>PROJECTS</strong> block. The HTML and ASPX files
+                    stay identical so future edits are straightforward.
+                  </p>
+                </div>
+                <a class="primary-button" href="#screening">Back to screening</a>
+              </div>
+            </div>
+          </section>
+        </div>
+      </main>
+
+      <footer class="footer">
+        <div class="wrap">
+          <span>H3L Showreel Studio</span>
+          <span>Built as HTML and ASPX for H3L project storytelling.</span>
+        </div>
+      </footer>
+    </div>
+
+    <div class="cinema" id="cinemaModal" role="dialog" aria-modal="true" aria-labelledby="cinemaTitle">
+      <div class="cinema-panel">
+        <div class="cinema-head">
+          <strong id="cinemaTitle">Cinema mode</strong>
+          <button class="small-button" type="button" id="cinemaCloseButton">Close</button>
+        </div>
+        <video class="cinema-video" id="cinemaVideo" controls playsinline></video>
+        <div class="cinema-body">
+          <span id="cinemaDescription"></span>
+          <button class="small-button" type="button" id="cinemaNextButton">Next project</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+    <script>
+      const PROJECTS = [
+        {
+          id: "design-library",
+          title: "Design Library",
+          category: "design",
+          video: "assets/videos/design-library-trailer.mp4",
+          poster: "assets/posters/design-library-poster.jpg",
+          runtime: "1:09",
+          seconds: 69,
+          accent: "#ffd100",
+          accent2: "#14b86a",
+          headline: "Reusable systems, made visible.",
+          kicker: "Featured reel",
+          purpose: "A visual trailer for the H3L design library and reusable standards.",
+          people: "H3L contributors",
+          outcome: "A clearer path for teams to find, trust, and reuse shared interface patterns.",
+          tags: ["Design system", "Enablement", "Reusable UI"],
+          description:
+            "A polished overview of the design library work, created to help teams understand the system, see the quality bar, and reuse shared patterns with confidence.",
+          chapters: [
+            {
+              title: "The problem is instantly legible",
+              body: "The opening question makes the value clear: teams should not rebuild the same UI decisions over and over."
+            },
+            {
+              title: "Scale becomes tangible",
+              body: "The trailer frames the library as a system of reusable components, templates, and standards that can support many projects."
+            },
+            {
+              title: "The takeaway is confidence",
+              body: "Viewers leave knowing this is not just a folder of assets. It is a shared quality bar for faster product work."
+            }
+          ]
+        },
+        {
+          id: "agent-builders",
+          title: "Agent Builders",
+          category: "ai",
+          video: "assets/videos/agent-builders-trailer.mp4",
+          poster: "assets/posters/agent-builders-poster.jpg",
+          runtime: "1:06",
+          seconds: 66,
+          accent: "#5bd7ff",
+          accent2: "#ff4f9a",
+          headline: "Agent workflows with momentum.",
+          kicker: "Interactive prototype",
+          purpose: "A trailer for the agent-building experience and workflow story.",
+          people: "H3L contributors",
+          outcome: "A prototype narrative that shows how teams can move from prompt to structured agent work.",
+          tags: ["AI", "Builder workflow", "Prototype"],
+          description:
+            "A fast, energetic walkthrough of the Agent Builders experience, showing how ideas move from template selection into agent collaboration, briefing, and generated work.",
+          chapters: [
+            {
+              title: "The hook introduces the future state",
+              body: "The trailer starts with the idea of a research pipeline that can think alongside the user."
+            },
+            {
+              title: "The workflow becomes concrete",
+              body: "Login, template selection, chat, briefing, and canvas generation show the experience as a usable product flow."
+            },
+            {
+              title: "The story lands on momentum",
+              body: "The project feels like a builder environment, not only a concept demo, which helps viewers imagine real use cases."
+            }
+          ]
+        }
+      ];
+
+      const COMMENT_SETTINGS = {
+        storageKey: "h3l-showreel-comments-v1",
+        endpoint: ""
+      };
+
+      const state = {
+        activeId: PROJECTS[0].id,
+        filter: "all",
+        search: "",
+        comments: []
+      };
+
+      const root = document.documentElement;
+      const projectDock = document.querySelector("#projectDock");
+      const projectGrid = document.querySelector("#projectGrid");
+      const emptyState = document.querySelector("#emptyState");
+      const projectSearch = document.querySelector("#projectSearch");
+      const projectCountLabel = document.querySelector("#projectCountLabel");
+      const activeVideo = document.querySelector("#activeVideo");
+      const heroPreviewVideo = document.querySelector("#heroPreviewVideo");
+      const activeTitle = document.querySelector("#activeTitle");
+      const activeDescription = document.querySelector("#activeDescription");
+      const activePurpose = document.querySelector("#activePurpose");
+      const activePeople = document.querySelector("#activePeople");
+      const activeOutcome = document.querySelector("#activeOutcome");
+      const activeRuntime = document.querySelector("#activeRuntime");
+      const activeTags = document.querySelector("#activeTags");
+      const commentForm = document.querySelector("#commentForm");
+      const commentName = document.querySelector("#commentName");
+      const commentTeam = document.querySelector("#commentTeam");
+      const commentText = document.querySelector("#commentText");
+      const commentList = document.querySelector("#commentList");
+      const activeCommentsTitle = document.querySelector("#activeCommentsTitle");
+      const activeCommentCount = document.querySelector("#activeCommentCount");
+      const reactionGrid = document.querySelector("#reactionGrid");
+      const playerNowLabel = document.querySelector("#playerNowLabel");
+      const statCount = document.querySelector("#statCount");
+      const statMinutes = document.querySelector("#statMinutes");
+      const heroProjectTitle = document.querySelector("#heroProjectTitle");
+      const heroProjectKicker = document.querySelector("#heroProjectKicker");
+      const heroProjectHeadline = document.querySelector("#heroProjectHeadline");
+      const heroProjectLine = document.querySelector("#heroProjectLine");
+      const storyList = document.querySelector("#storyList");
+      const storySummary = document.querySelector("#storySummary");
+      const toast = document.querySelector("#toast");
+      const cinemaModal = document.querySelector("#cinemaModal");
+      const cinemaVideo = document.querySelector("#cinemaVideo");
+      const cinemaTitle = document.querySelector("#cinemaTitle");
+      const cinemaDescription = document.querySelector("#cinemaDescription");
+      let lastFocusedElement = null;
+      let toastTimer = null;
+
+      function normalize(value) {
+        return value.toLowerCase().trim();
+      }
+
+      function formatTotalTime(projects) {
+        const totalSeconds = projects.reduce((sum, project) => sum + project.seconds, 0);
+        return `${Math.floor(totalSeconds / 60)}:${String(totalSeconds % 60).padStart(2, "0")}`;
+      }
+
+      function getActiveProject() {
+        return PROJECTS.find((project) => project.id === state.activeId) || PROJECTS[0];
+      }
+
+      function getNextProject() {
+        const activeIndex = PROJECTS.findIndex((project) => project.id === state.activeId);
+        return PROJECTS[(activeIndex + 1) % PROJECTS.length];
+      }
+
+      function getProjectById(projectId) {
+        return PROJECTS.find((project) => project.id === projectId) || PROJECTS[0];
+      }
+
+      function getSearchHaystack(project) {
+        return normalize(
+          [
+            project.title,
+            project.category,
+            project.purpose,
+            project.people,
+            project.outcome,
+            project.description,
+            project.tags.join(" "),
+            project.chapters.map((chapter) => `${chapter.title} ${chapter.body}`).join(" ")
+          ].join(" ")
+        );
+      }
+
+      function getVisibleProjects() {
+        return PROJECTS.filter((project) => {
+          const matchesFilter = state.filter === "all" || project.category === state.filter;
+          const matchesSearch = !state.search || getSearchHaystack(project).includes(state.search);
+          return matchesFilter && matchesSearch;
+        });
+      }
+
+      function showToast(message) {
+        toast.textContent = message;
+        toast.classList.add("is-visible");
+        clearTimeout(toastTimer);
+        toastTimer = setTimeout(() => toast.classList.remove("is-visible"), 2400);
+      }
+
+      function loadComments() {
+        try {
+          const saved = window.localStorage.getItem(COMMENT_SETTINGS.storageKey);
+          state.comments = saved ? JSON.parse(saved) : [];
+        } catch (error) {
+          state.comments = [];
+        }
+      }
+
+      function saveComments() {
+        try {
+          window.localStorage.setItem(COMMENT_SETTINGS.storageKey, JSON.stringify(state.comments));
+        } catch (error) {
+          showToast("Comment saved for this session, but browser storage is unavailable.");
+        }
+      }
+
+      function formatCommentDate(value) {
+        return new Intl.DateTimeFormat(undefined, {
+          month: "short",
+          day: "numeric",
+          hour: "numeric",
+          minute: "2-digit"
+        }).format(new Date(value));
+      }
+
+      function getProjectComments(projectId) {
+        return state.comments
+          .filter((comment) => comment.projectId === projectId)
+          .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+      }
+
+      function appendText(parent, text) {
+        parent.append(document.createTextNode(text));
+      }
+
+      function makeCommentCard(comment, includeProject = false) {
+        const card = document.createElement("article");
+        card.className = "comment-card";
+
+        const body = document.createElement("p");
+        appendText(body, comment.text);
+
+        const footer = document.createElement("footer");
+        appendText(footer, comment.name || "H3L teammate");
+        appendText(footer, " / ");
+        appendText(footer, comment.team || "H3L");
+        appendText(footer, " / ");
+        appendText(footer, formatCommentDate(comment.createdAt));
+
+        if (includeProject) {
+          appendText(footer, " / ");
+          appendText(footer, comment.projectTitle);
+        }
+
+        card.append(body, footer);
+        return card;
+      }
+
+      function renderProjectComments(project) {
+        const comments = getProjectComments(project.id);
+        activeCommentsTitle.textContent = `${project.title} comments`;
+        activeCommentCount.textContent = `${comments.length} comment${comments.length === 1 ? "" : "s"}`;
+        commentList.innerHTML = "";
+
+        if (!comments.length) {
+          const empty = document.createElement("div");
+          empty.className = "comment-empty";
+          empty.textContent = "No comments for this reel yet. Add the first note for the team.";
+          commentList.append(empty);
+          return;
+        }
+
+        comments.forEach((comment) => commentList.append(makeCommentCard(comment)));
+      }
+
+      function renderReactions() {
+        const latest = [...state.comments]
+          .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
+          .slice(0, 3);
+        reactionGrid.innerHTML = "";
+
+        if (!latest.length) {
+          [
+            ["Add a short reaction from someone who used the project or saw the trailer.", "Future stakeholder quote", "var(--yellow)"],
+            ["Capture what changed: faster alignment, clearer storytelling, or better reuse.", "Future project team note", "var(--sky)"],
+            ["Use this space for launch feedback once more H3L teams add their reels.", "Future H3L team comment", "var(--green)"]
+          ].forEach(([quote, caption, accent]) => {
+            const card = document.createElement("figure");
+            card.className = "reaction-card";
+            card.style.setProperty("--reaction-accent", accent);
+            card.innerHTML = `
+              <span class="quote-mark" aria-hidden="true">"</span>
+              <blockquote>${quote}</blockquote>
+              <figcaption>${caption}</figcaption>
+            `;
+            reactionGrid.append(card);
+          });
+          return;
+        }
+
+        latest.forEach((comment) => {
+          const project = getProjectById(comment.projectId);
+          const card = document.createElement("figure");
+          card.className = "reaction-card";
+          card.style.setProperty("--reaction-accent", project.accent);
+
+          const quote = document.createElement("span");
+          quote.className = "quote-mark";
+          quote.setAttribute("aria-hidden", "true");
+          quote.textContent = '"';
+
+          const projectLabel = document.createElement("small");
+          projectLabel.textContent = comment.projectTitle;
+
+          const blockquote = document.createElement("blockquote");
+          appendText(blockquote, comment.text);
+
+          const caption = document.createElement("figcaption");
+          appendText(caption, `${comment.name || "H3L teammate"} / ${comment.team || "H3L"}`);
+
+          card.append(quote, projectLabel, blockquote, caption);
+          reactionGrid.append(card);
+        });
+      }
+
+      async function sendCommentToEndpoint(comment) {
+        if (!COMMENT_SETTINGS.endpoint) {
+          return;
+        }
+
+        try {
+          await fetch(COMMENT_SETTINGS.endpoint, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(comment)
+          });
+        } catch (error) {
+          showToast("Comment posted here. Shared comment sync needs the live endpoint connected.");
+        }
+      }
+
+      function setAccent(project) {
+        root.style.setProperty("--active-accent", project.accent);
+        root.style.setProperty("--active-accent-2", project.accent2);
+      }
+
+      function renderTags(project, target) {
+        target.innerHTML = "";
+        project.tags.forEach((tag) => {
+          const tagEl = document.createElement("span");
+          tagEl.className = "tag";
+          tagEl.textContent = tag;
+          target.append(tagEl);
+        });
+      }
+
+      function renderStory(project) {
+        storySummary.textContent = `${project.title} is framed around ${project.purpose.toLowerCase()}`;
+        storyList.innerHTML = "";
+        project.chapters.forEach((chapter, index) => {
+          const item = document.createElement("article");
+          item.className = "story-card";
+          item.innerHTML = `
+            <span class="story-number">${String(index + 1).padStart(2, "0")}</span>
+            <span>
+              <h3>${chapter.title}</h3>
+              <p>${chapter.body}</p>
+            </span>
+          `;
+          storyList.append(item);
+        });
+      }
+
+      function renderDock() {
+        projectDock.innerHTML = "";
+        PROJECTS.forEach((project) => {
+          const button = document.createElement("button");
+          button.className = "dock-card";
+          button.type = "button";
+          button.style.setProperty("--project-accent", project.accent);
+          button.setAttribute("aria-pressed", String(project.id === state.activeId));
+          button.innerHTML = `
+            <img src="${project.poster}" alt="" />
+            <span>
+              <strong>${project.title}</strong>
+              <span>${project.purpose}</span>
+            </span>
+          `;
+          button.addEventListener("click", () => setActiveProject(project, true));
+          projectDock.append(button);
+        });
+      }
+
+      function setActiveProject(project, shouldScroll = true, updateHash = true) {
+        state.activeId = project.id;
+        setAccent(project);
+        activeVideo.pause();
+        activeVideo.poster = project.poster;
+        activeVideo.src = project.video;
+        heroPreviewVideo.poster = project.poster;
+        heroPreviewVideo.src = project.video;
+        heroPreviewVideo.play().catch(() => {});
+        heroProjectTitle.textContent = project.title;
+        heroProjectKicker.textContent = project.kicker;
+        heroProjectHeadline.textContent = project.headline;
+        heroProjectLine.textContent = project.description;
+        activeTitle.textContent = project.title;
+        activeDescription.textContent = project.description;
+        activePurpose.textContent = project.purpose;
+        activePeople.textContent = project.people;
+        activeOutcome.textContent = project.outcome;
+        activeRuntime.textContent = project.runtime;
+        playerNowLabel.textContent = `Now playing: ${project.title}`;
+        renderTags(project, activeTags);
+        renderStory(project);
+        renderDock();
+        renderProjectComments(project);
+        renderReactions();
+
+        if (updateHash && window.location.hash !== `#${project.id}`) {
+          history.replaceState(null, "", `#${project.id}`);
+        }
+
+        if (shouldScroll) {
+          document.querySelector("#screening").scrollIntoView({ behavior: "smooth", block: "start" });
+        }
+      }
+
+      function makeProjectCard(project) {
+        const button = document.createElement("button");
+        button.className = "project-card tilt-card";
+        button.type = "button";
+        button.dataset.projectId = project.id;
+        button.style.setProperty("--project-accent", project.accent);
+        button.setAttribute("aria-label", `Open ${project.title} in the screening room`);
+        button.innerHTML = `
+          <img src="${project.poster}" alt="${project.title} poster" loading="lazy" />
+          <video src="${project.video}" muted loop playsinline preload="metadata" aria-hidden="true"></video>
+          <span class="card-content">
+            <h3>${project.title}</h3>
+            <p>${project.description}</p>
+            <span class="card-foot">
+              <span>Open screening</span>
+              <span>${project.runtime}</span>
+              <span class="play-chip">Play</span>
+            </span>
+          </span>
+        `;
+
+        const previewVideo = button.querySelector("video");
+        button.addEventListener("click", () => setActiveProject(project));
+        button.addEventListener("mouseenter", () => {
+          button.classList.add("is-previewing");
+          previewVideo.currentTime = Math.min(previewVideo.duration || 0, 1);
+          previewVideo.play().catch(() => {});
+        });
+        button.addEventListener("mouseleave", () => {
+          button.classList.remove("is-previewing");
+          previewVideo.pause();
+        });
+
+        return button;
+      }
+
+      function renderGrid() {
+        const visibleProjects = getVisibleProjects();
+        projectGrid.innerHTML = "";
+        visibleProjects.forEach((project) => projectGrid.append(makeProjectCard(project)));
+        projectCountLabel.textContent = `${visibleProjects.length} project${visibleProjects.length === 1 ? "" : "s"} showing`;
+        emptyState.classList.toggle("is-visible", visibleProjects.length === 0);
+      }
+
+      function bindFilters() {
+        document.querySelectorAll("[data-filter]").forEach((button) => {
+          button.addEventListener("click", () => {
+            state.filter = button.dataset.filter;
+            document
+              .querySelectorAll("[data-filter]")
+              .forEach((item) => item.setAttribute("aria-pressed", String(item === button)));
+            renderGrid();
+          });
+        });
+      }
+
+      function bindSearch() {
+        projectSearch.addEventListener("input", (event) => {
+          state.search = normalize(event.target.value);
+          renderGrid();
+        });
+      }
+
+      function bindComments() {
+        commentForm.addEventListener("submit", (event) => {
+          event.preventDefault();
+          const project = getActiveProject();
+          const comment = {
+            id: `${Date.now()}-${Math.random().toString(36).slice(2)}`,
+            projectId: project.id,
+            projectTitle: project.title,
+            name: commentName.value.trim(),
+            team: commentTeam.value.trim(),
+            text: commentText.value.trim(),
+            createdAt: new Date().toISOString()
+          };
+
+          if (!comment.name || !comment.text) {
+            showToast("Add your name and a comment before posting.");
+            return;
+          }
+
+          state.comments.unshift(comment);
+          saveComments();
+          renderProjectComments(project);
+          renderReactions();
+          commentText.value = "";
+          showToast(`Comment added to ${project.title}.`);
+          sendCommentToEndpoint(comment);
+        });
+      }
+
+      function hydrateFromHash() {
+        const hashId = window.location.hash.replace("#", "");
+        const project = PROJECTS.find((item) => item.id === hashId) || PROJECTS[0];
+        setActiveProject(project, false, false);
+      }
+
+      function copyActiveLink() {
+        const project = getActiveProject();
+        const url = `${window.location.origin}${window.location.pathname}#${project.id}`;
+        if (navigator.clipboard && window.isSecureContext) {
+          navigator.clipboard.writeText(url).then(
+            () => showToast(`Copied link to ${project.title}.`),
+            () => showToast(`Project link: ${url}`)
+          );
+        } else {
+          showToast(`Project link: ${url}`);
+        }
+      }
+
+      function openCinema() {
+        const project = getActiveProject();
+        lastFocusedElement = document.activeElement;
+        cinemaTitle.textContent = `${project.title} cinema mode`;
+        cinemaDescription.textContent = project.description;
+        cinemaVideo.poster = project.poster;
+        cinemaVideo.src = project.video;
+        cinemaModal.classList.add("is-open");
+        document.body.classList.add("modal-open");
+        document.querySelector("#cinemaCloseButton").focus();
+      }
+
+      function closeCinema() {
+        cinemaVideo.pause();
+        cinemaModal.classList.remove("is-open");
+        document.body.classList.remove("modal-open");
+        if (lastFocusedElement) {
+          lastFocusedElement.focus();
+        }
+      }
+
+      function bindPlayerActions() {
+        document.querySelector("#cinemaButton").addEventListener("click", openCinema);
+        document.querySelector("#heroCinemaButton").addEventListener("click", openCinema);
+        document.querySelector("#heroNextButton").addEventListener("click", () => setActiveProject(getNextProject(), false));
+        document.querySelector("#copyLinkButton").addEventListener("click", copyActiveLink);
+        document.querySelector("#nextProjectButton").addEventListener("click", () => setActiveProject(getNextProject()));
+        document.querySelector("#cinemaCloseButton").addEventListener("click", closeCinema);
+        document.querySelector("#cinemaNextButton").addEventListener("click", () => {
+          setActiveProject(getNextProject(), false);
+          openCinema();
+        });
+        cinemaModal.addEventListener("click", (event) => {
+          if (event.target === cinemaModal) {
+            closeCinema();
+          }
+        });
+        document.addEventListener("keydown", (event) => {
+          if (event.key === "Escape" && cinemaModal.classList.contains("is-open")) {
+            closeCinema();
+          }
+          if (event.key === "Tab" && cinemaModal.classList.contains("is-open")) {
+            const focusable = Array.from(
+              cinemaModal.querySelectorAll("button, video, [href], input, select, textarea, [tabindex]:not([tabindex='-1'])")
+            ).filter((element) => !element.hasAttribute("disabled"));
+            const first = focusable[0];
+            const last = focusable[focusable.length - 1];
+
+            if (!first || !last) {
+              return;
+            }
+
+            if (event.shiftKey && document.activeElement === first) {
+              event.preventDefault();
+              last.focus();
+            } else if (!event.shiftKey && document.activeElement === last) {
+              event.preventDefault();
+              first.focus();
+            }
+          }
+        });
+      }
+
+      function bindPointerMagic() {
+        document.addEventListener("pointermove", (event) => {
+          root.style.setProperty("--cursor-x", `${event.clientX}px`);
+          root.style.setProperty("--cursor-y", `${event.clientY}px`);
+        });
+
+        document.addEventListener("pointermove", (event) => {
+          const card = event.target.closest(".tilt-card");
+          if (!card || window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+            return;
+          }
+          const rect = card.getBoundingClientRect();
+          const x = (event.clientX - rect.left) / rect.width - 0.5;
+          const y = (event.clientY - rect.top) / rect.height - 0.5;
+          card.style.transform = `perspective(900px) rotateY(${x * 4}deg) rotateX(${-y * 4}deg) translateY(-2px)`;
+        });
+
+        document.addEventListener("pointerleave", (event) => {
+          const card = event.target.closest && event.target.closest(".tilt-card");
+          if (card) {
+            card.style.transform = "";
+          }
+        }, true);
+      }
+
+      function runVitalityCanvas() {
+        const canvas = document.querySelector("#vitalityCanvas");
+        const context = canvas.getContext("2d");
+        const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+        const particles = Array.from({ length: 46 }, (_, index) => ({
+          x: Math.random(),
+          y: Math.random(),
+          r: 1.5 + Math.random() * 3.5,
+          dx: (Math.random() - 0.5) * 0.00045,
+          dy: (Math.random() - 0.5) * 0.00045,
+          color: [PROJECTS[index % PROJECTS.length].accent, PROJECTS[index % PROJECTS.length].accent2, "#5bd7ff"][index % 3]
+        }));
+
+        function resize() {
+          canvas.width = canvas.offsetWidth * window.devicePixelRatio;
+          canvas.height = canvas.offsetHeight * window.devicePixelRatio;
+        }
+
+        function draw() {
+          context.clearRect(0, 0, canvas.width, canvas.height);
+          particles.forEach((particle, index) => {
+            if (!reducedMotion) {
+              particle.x = (particle.x + particle.dx + 1) % 1;
+              particle.y = (particle.y + particle.dy + 1) % 1;
+            }
+            const x = particle.x * canvas.width;
+            const y = particle.y * canvas.height;
+            context.beginPath();
+            context.fillStyle = particle.color;
+            context.globalAlpha = index % 4 === 0 ? 0.42 : 0.22;
+            context.arc(x, y, particle.r * window.devicePixelRatio, 0, Math.PI * 2);
+            context.fill();
+
+            particles.slice(index + 1, index + 4).forEach((other) => {
+              const ox = other.x * canvas.width;
+              const oy = other.y * canvas.height;
+              const distance = Math.hypot(x - ox, y - oy);
+              if (distance < 190 * window.devicePixelRatio) {
+                context.beginPath();
+                context.strokeStyle = particle.color;
+                context.globalAlpha = 0.08;
+                context.moveTo(x, y);
+                context.lineTo(ox, oy);
+                context.stroke();
+              }
+            });
+          });
+          context.globalAlpha = 1;
+          if (!reducedMotion) {
+            requestAnimationFrame(draw);
+          }
+        }
+
+        resize();
+        draw();
+        window.addEventListener("resize", resize);
+      }
+
+      statCount.textContent = PROJECTS.length;
+      statMinutes.textContent = formatTotalTime(PROJECTS);
+      loadComments();
+      bindFilters();
+      bindSearch();
+      bindComments();
+      bindPlayerActions();
+      bindPointerMagic();
+      renderGrid();
+      hydrateFromHash();
+      runVitalityCanvas();
+      window.addEventListener("hashchange", hydrateFromHash);
+    </script>
+  </body>
+</html>

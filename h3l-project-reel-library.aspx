@@ -521,7 +521,7 @@
       }
 
       .section {
-        padding: 70px 0;
+        padding: 54px 0;
       }
 
       .section-heading {
@@ -1003,14 +1003,18 @@
       }
 
       .reaction-grid {
-        display: grid;
-        grid-template-columns: repeat(3, minmax(0, 1fr));
-        gap: 18px;
+        display: flex;
+        gap: 14px;
+        overflow-x: auto;
+        overscroll-behavior-inline: contain;
+        padding: 4px 4px 18px;
+        scroll-padding-inline: 4px;
+        scroll-snap-type: inline mandatory;
       }
 
       .reaction-card {
         position: relative;
-        min-height: 260px;
+        min-height: 230px;
         overflow: hidden;
         border: 1px solid rgba(3, 38, 111, 0.13);
         border-radius: 26px;
@@ -1019,6 +1023,8 @@
           var(--white);
         padding: 24px;
         box-shadow: var(--soft-shadow);
+        flex: 0 0 min(360px, 31%);
+        scroll-snap-align: start;
       }
 
       .reaction-card::before {
@@ -1071,6 +1077,44 @@
         position: relative;
       }
 
+      .carousel-controls {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+
+      .carousel-button {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 42px;
+        height: 42px;
+        border: 1px solid rgba(3, 38, 111, 0.16);
+        border-radius: 50%;
+        background: var(--white);
+        color: var(--blue-950);
+        font-size: 0;
+        box-shadow: 0 8px 18px rgba(0, 32, 95, 0.1);
+      }
+
+      .carousel-button::before {
+        width: 10px;
+        height: 10px;
+        border-top: 3px solid currentColor;
+        border-right: 3px solid currentColor;
+        content: "";
+      }
+
+      .carousel-button[data-direction="-1"]::before {
+        transform: rotate(-135deg);
+        margin-left: 4px;
+      }
+
+      .carousel-button[data-direction="1"]::before {
+        transform: rotate(45deg);
+        margin-right: 4px;
+      }
+
       .filmstrip-toolbar {
         display: flex;
         align-items: center;
@@ -1105,14 +1149,18 @@
       }
 
       .gallery-grid {
-        display: grid;
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-        gap: 18px;
+        display: flex;
+        gap: 16px;
+        overflow-x: auto;
+        overscroll-behavior-inline: contain;
+        padding: 4px 4px 20px;
+        scroll-padding-inline: 4px;
+        scroll-snap-type: inline mandatory;
       }
 
       .project-card {
         position: relative;
-        min-height: 430px;
+        min-height: 380px;
         overflow: hidden;
         border: 0;
         border-radius: 28px;
@@ -1121,6 +1169,8 @@
         padding: 0;
         text-align: left;
         box-shadow: var(--shadow);
+        flex: 0 0 min(540px, 46%);
+        scroll-snap-align: start;
       }
 
       .project-card img,
@@ -1229,6 +1279,14 @@
         background: var(--white);
         padding: 24px;
         box-shadow: var(--soft-shadow);
+      }
+
+      #gallery {
+        padding-bottom: 38px;
+      }
+
+      #edit {
+        padding-top: 22px;
       }
 
       .editor-note h2 {
@@ -1347,10 +1405,21 @@
           grid-template-columns: repeat(2, 1fr);
         }
 
-        .gallery-grid,
         .project-dock,
-        .reaction-grid {
+        .conversation-panel {
           grid-template-columns: 1fr;
+        }
+
+        .gallery-grid {
+          display: flex;
+        }
+
+        .project-card {
+          flex-basis: min(520px, 72%);
+        }
+
+        .reaction-card {
+          flex-basis: min(380px, 62%);
         }
 
       }
@@ -1426,7 +1495,15 @@
         }
 
         .project-card {
-          min-height: 470px;
+          min-height: 430px;
+        }
+
+        .project-card {
+          flex-basis: 88%;
+        }
+
+        .reaction-card {
+          flex-basis: 92%;
         }
 
         .card-content {
@@ -1651,10 +1728,20 @@
                   <p class="eyebrow"><span class="spark"></span> Team reactions</p>
                   <h2 id="reactions-title">Comments can live here next.</h2>
                 </div>
-                <p>
-                  Once people start watching, this section is ready for short quotes from project
-                  leads, stakeholders, and teams who reused the work.
-                </p>
+                <div>
+                  <p>
+                    Once people start watching, this section is ready for short quotes from project
+                    leads, stakeholders, and teams who reused the work.
+                  </p>
+                  <div class="carousel-controls" aria-label="Team reactions carousel controls">
+                    <button class="carousel-button" type="button" data-carousel-target="reactionGrid" data-direction="-1">
+                      Previous reactions
+                    </button>
+                    <button class="carousel-button" type="button" data-carousel-target="reactionGrid" data-direction="1">
+                      Next reactions
+                    </button>
+                  </div>
+                </div>
               </div>
 
               <div class="reaction-grid" id="reactionGrid" aria-label="Latest team comments"></div>
@@ -1681,7 +1768,15 @@
                   <button class="filter-button" type="button" data-filter="ai">AI</button>
                   <button class="filter-button" type="button" data-filter="business">Business</button>
                 </div>
-                <span class="project-count" id="projectCountLabel">3 projects showing</span>
+                <div class="carousel-controls">
+                  <span class="project-count" id="projectCountLabel">3 projects showing</span>
+                  <button class="carousel-button" type="button" data-carousel-target="projectGrid" data-direction="-1">
+                    Previous projects
+                  </button>
+                  <button class="carousel-button" type="button" data-carousel-target="projectGrid" data-direction="1">
+                    Next projects
+                  </button>
+                </div>
               </div>
 
               <div class="gallery-grid" id="projectGrid"></div>
@@ -2232,6 +2327,22 @@
         });
       }
 
+      function bindCarousels() {
+        document.querySelectorAll("[data-carousel-target]").forEach((button) => {
+          button.addEventListener("click", () => {
+            const target = document.querySelector(`#${button.dataset.carouselTarget}`);
+            const direction = Number(button.dataset.direction || 1);
+            if (!target) {
+              return;
+            }
+
+            const firstItem = target.firstElementChild;
+            const distance = firstItem ? firstItem.getBoundingClientRect().width + 16 : target.clientWidth * 0.8;
+            target.scrollBy({ left: distance * direction, behavior: "smooth" });
+          });
+        });
+      }
+
       function bindComments() {
         commentForm.addEventListener("submit", (event) => {
           event.preventDefault();
@@ -2432,6 +2543,7 @@
       bindFilters();
       bindSearch();
       bindComments();
+      bindCarousels();
       bindPlayerActions();
       bindPointerMagic();
       renderGrid();

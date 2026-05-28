@@ -740,19 +740,66 @@
 
       .conversation-panel {
         display: grid;
-        grid-template-columns: minmax(280px, 0.68fr) minmax(0, 1.32fr);
-        gap: 24px;
-        align-items: start;
+        grid-template-columns: minmax(220px, 0.72fr) minmax(280px, 1fr) minmax(320px, 1.18fr);
+        gap: 18px;
+        align-items: stretch;
         border: 1px solid rgba(3, 38, 111, 0.13);
-        border-radius: 26px;
-        background: rgba(255, 255, 255, 0.88);
-        padding: 24px;
+        border-radius: 30px;
+        background:
+          linear-gradient(135deg, rgba(255, 255, 255, 0.92), rgba(244, 250, 255, 0.76)),
+          rgba(255, 255, 255, 0.88);
+        padding: 18px;
         box-shadow: var(--soft-shadow);
+      }
+
+      .conversation-intro {
+        position: relative;
+        overflow: hidden;
+        border-radius: 22px;
+        background: var(--blue-950);
+        color: var(--white);
+        padding: 22px;
+        min-height: 100%;
+      }
+
+      .conversation-intro::after {
+        position: absolute;
+        right: -18%;
+        bottom: -26%;
+        width: 190px;
+        height: 190px;
+        border-radius: 50%;
+        background: color-mix(in srgb, var(--active-accent) 55%, transparent);
+        content: "";
+        filter: blur(24px);
+      }
+
+      .conversation-intro h2 {
+        position: relative;
+        z-index: 1;
+        margin-bottom: 12px;
+        font-size: clamp(1.8rem, 3vw, 2.8rem);
+        line-height: 0.96;
+      }
+
+      .conversation-intro p {
+        position: relative;
+        z-index: 1;
+        color: rgba(255, 255, 255, 0.72);
+      }
+
+      .conversation-intro .comment-help {
+        margin-top: 18px;
+        color: rgba(255, 255, 255, 0.64);
       }
 
       .comment-form {
         display: grid;
-        gap: 12px;
+        gap: 14px;
+        border: 1px solid rgba(3, 38, 111, 0.12);
+        border-radius: 22px;
+        background: var(--white);
+        padding: 18px;
       }
 
       .comment-form label {
@@ -793,7 +840,12 @@
 
       .comment-list-wrap {
         display: grid;
-        gap: 12px;
+        align-content: start;
+        gap: 14px;
+        border: 1px solid rgba(3, 38, 111, 0.12);
+        border-radius: 22px;
+        background: rgba(255, 255, 255, 0.76);
+        padding: 18px;
       }
 
       .comment-list-head {
@@ -820,7 +872,7 @@
       .comment-list {
         display: grid;
         gap: 10px;
-        max-height: 440px;
+        max-height: 380px;
         overflow: auto;
         padding-right: 4px;
       }
@@ -857,21 +909,27 @@
 
       .story-stage {
         display: grid;
-        grid-template-columns: minmax(260px, 0.62fr) minmax(0, 1.38fr);
-        gap: 24px;
-        align-items: start;
+        grid-template-columns: minmax(260px, 0.56fr) minmax(0, 1.44fr);
+        gap: 18px;
+        align-items: stretch;
+        border: 1px solid rgba(3, 38, 111, 0.12);
+        border-radius: 30px;
+        background:
+          radial-gradient(circle at 12% 12%, rgba(255, 209, 0, 0.12), transparent 18rem),
+          rgba(255, 255, 255, 0.68);
+        padding: 18px;
+        box-shadow: var(--soft-shadow);
       }
 
       .story-lead {
-        position: sticky;
-        top: 98px;
+        position: relative;
         overflow: hidden;
         contain: paint;
-        border-radius: 26px;
+        border-radius: 22px;
         background: var(--blue-950);
         color: var(--white);
-        padding: 26px;
-        box-shadow: var(--shadow);
+        padding: 24px;
+        box-shadow: none;
       }
 
       .story-lead::after {
@@ -888,8 +946,8 @@
         position: relative;
         z-index: 1;
         margin-bottom: 12px;
-        font-size: clamp(2rem, 4vw, 3.5rem);
-        line-height: 0.94;
+        font-size: clamp(2rem, 3.6vw, 3.35rem);
+        line-height: 0.95;
       }
 
       .story-lead p {
@@ -901,18 +959,22 @@
 
       .story-list {
         display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
         gap: 14px;
       }
 
       .story-card {
         display: grid;
-        grid-template-columns: 76px minmax(0, 1fr);
-        gap: 18px;
-        align-items: start;
+        grid-template-columns: 1fr;
+        align-content: start;
+        gap: 16px;
+        min-height: 230px;
         border: 1px solid rgba(3, 38, 111, 0.12);
         border-radius: 22px;
-        background: rgba(255, 255, 255, 0.86);
-        padding: 20px;
+        background:
+          linear-gradient(180deg, rgba(255, 255, 255, 0.96), rgba(255, 255, 255, 0.78)),
+          rgba(255, 255, 255, 0.86);
+        padding: 18px;
         box-shadow: 0 12px 26px rgba(0, 32, 95, 0.08);
       }
 
@@ -931,7 +993,8 @@
       .story-card h3 {
         margin-bottom: 7px;
         color: var(--blue-950);
-        font-size: 1.25rem;
+        font-size: 1.18rem;
+        line-height: 1.12;
       }
 
       .story-card p {
@@ -1276,6 +1339,10 @@
           grid-template-columns: 1fr;
         }
 
+        .story-list {
+          grid-template-columns: 1fr;
+        }
+
         .stat-panel {
           grid-template-columns: repeat(2, 1fr);
         }
@@ -1286,9 +1353,6 @@
           grid-template-columns: 1fr;
         }
 
-        .story-lead {
-          position: static;
-        }
       }
 
       @media (max-width: 720px) {
@@ -1522,14 +1586,19 @@
               </div>
 
               <section class="conversation-panel" aria-labelledby="conversation-title">
+                <div class="conversation-intro">
+                  <p class="eyebrow"><span class="spark"></span> Leave a comment</p>
+                  <h2 id="conversation-title">Add feedback for this reel.</h2>
+                  <p>
+                    Keep the conversation attached to the video people just watched. Notes here roll
+                    up into the team reactions section.
+                  </p>
+                  <p class="comment-help">
+                    For a shared live launch, connect the comment endpoint in the settings block near the project data.
+                  </p>
+                </div>
+
                 <form class="comment-form" id="commentForm">
-                  <div>
-                    <p class="eyebrow"><span class="spark"></span> Leave a comment</p>
-                    <h2 id="conversation-title">Add feedback for this reel.</h2>
-                    <p class="comment-help">
-                      Comments attach to the active project and appear in the team reactions section.
-                    </p>
-                  </div>
                   <label>
                     Your name
                     <input id="commentName" name="name" autocomplete="name" maxlength="80" required />
@@ -1549,9 +1618,6 @@
                     ></textarea>
                   </label>
                   <button class="primary-button" type="submit">Post comment</button>
-                  <p class="comment-help">
-                    For a shared live launch, connect the comment endpoint in the settings block near the project data.
-                  </p>
                 </form>
 
                 <div class="comment-list-wrap">

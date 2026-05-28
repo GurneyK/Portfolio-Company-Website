@@ -1613,8 +1613,9 @@
                   <button class="filter-button" type="button" data-filter="all" aria-pressed="true">All</button>
                   <button class="filter-button" type="button" data-filter="design">Design</button>
                   <button class="filter-button" type="button" data-filter="ai">AI</button>
+                  <button class="filter-button" type="button" data-filter="business">Business</button>
                 </div>
-                <span class="project-count" id="projectCountLabel">2 projects showing</span>
+                <span class="project-count" id="projectCountLabel">3 projects showing</span>
               </div>
 
               <div class="gallery-grid" id="projectGrid"></div>
@@ -1731,6 +1732,39 @@
             {
               title: "The story lands on momentum",
               body: "The project feels like a builder environment, not only a concept demo, which helps viewers imagine real use cases."
+            }
+          ]
+        },
+        {
+          id: "dealigence",
+          title: "Dealigence",
+          category: "business",
+          video: "assets/videos/dealigence-final.mp4",
+          poster: "assets/posters/dealigence-poster.jpg",
+          runtime: "1:35",
+          seconds: 95,
+          accent: "#14b86a",
+          accent2: "#ffd100",
+          headline: "Deal review, made easier to follow.",
+          kicker: "Business intelligence reel",
+          purpose: "A trailer for the Dealigence experience and its deal-review workflow.",
+          people: "H3L contributors",
+          outcome: "A clearer way to present complex deal intelligence, workflow context, and decision support.",
+          tags: ["Business intelligence", "Workflow", "Decision support"],
+          description:
+            "A project trailer for Dealigence, showing how a focused digital experience can make deal review, context, and next steps easier for teams to understand.",
+          chapters: [
+            {
+              title: "The use case is introduced quickly",
+              body: "The reel frames Dealigence as a focused experience for reviewing deal information and moving through complex context."
+            },
+            {
+              title: "Workflow becomes the story",
+              body: "The interface moments help viewers see how information, decisions, and next steps can live in one guided experience."
+            },
+            {
+              title: "The value is clarity",
+              body: "The trailer positions the project as a way to reduce friction and make deal intelligence easier to present, scan, and act on."
             }
           ]
         }

@@ -1004,26 +1004,31 @@
 
       .reaction-grid {
         display: flex;
-        gap: 14px;
+        gap: 18px;
         overflow-x: auto;
         overscroll-behavior-inline: contain;
-        padding: 4px 4px 18px;
+        padding: 4px 4px 20px;
         scroll-padding-inline: 4px;
         scroll-snap-type: inline mandatory;
+        scrollbar-width: none;
+      }
+
+      .reaction-grid::-webkit-scrollbar {
+        display: none;
       }
 
       .reaction-card {
         position: relative;
-        min-height: 230px;
+        min-height: 270px;
         overflow: hidden;
         border: 1px solid rgba(3, 38, 111, 0.13);
         border-radius: 26px;
         background:
           linear-gradient(145deg, rgba(255, 255, 255, 0.96), rgba(255, 255, 255, 0.78)),
           var(--white);
-        padding: 24px;
+        padding: 28px;
         box-shadow: var(--soft-shadow);
-        flex: 0 0 min(360px, 31%);
+        flex: 0 0 min(440px, 43%);
         scroll-snap-align: start;
       }
 
@@ -1149,13 +1154,9 @@
       }
 
       .gallery-grid {
-        display: flex;
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
         gap: 16px;
-        overflow-x: auto;
-        overscroll-behavior-inline: contain;
-        padding: 4px 4px 20px;
-        scroll-padding-inline: 4px;
-        scroll-snap-type: inline mandatory;
       }
 
       .project-card {
@@ -1169,8 +1170,6 @@
         padding: 0;
         text-align: left;
         box-shadow: var(--shadow);
-        flex: 0 0 min(540px, 46%);
-        scroll-snap-align: start;
       }
 
       .project-card img,
@@ -1411,15 +1410,11 @@
         }
 
         .gallery-grid {
-          display: flex;
-        }
-
-        .project-card {
-          flex-basis: min(520px, 72%);
+          grid-template-columns: 1fr;
         }
 
         .reaction-card {
-          flex-basis: min(380px, 62%);
+          flex-basis: min(520px, 72%);
         }
 
       }
@@ -1496,10 +1491,6 @@
 
         .project-card {
           min-height: 430px;
-        }
-
-        .project-card {
-          flex-basis: 88%;
         }
 
         .reaction-card {
@@ -1770,12 +1761,6 @@
                 </div>
                 <div class="carousel-controls">
                   <span class="project-count" id="projectCountLabel">3 projects showing</span>
-                  <button class="carousel-button" type="button" data-carousel-target="projectGrid" data-direction="-1">
-                    Previous projects
-                  </button>
-                  <button class="carousel-button" type="button" data-carousel-target="projectGrid" data-direction="1">
-                    Next projects
-                  </button>
                 </div>
               </div>
 

@@ -1003,33 +1003,23 @@
       }
 
       .reaction-grid {
-        display: flex;
-        gap: 18px;
-        overflow-x: auto;
-        overscroll-behavior-inline: contain;
-        padding: 4px 4px 20px;
-        scroll-padding-inline: 4px;
-        scroll-snap-type: inline mandatory;
-        scrollbar-width: none;
-      }
-
-      .reaction-grid::-webkit-scrollbar {
-        display: none;
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 16px;
+        margin-top: 8px;
       }
 
       .reaction-card {
         position: relative;
-        min-height: 270px;
+        min-height: 260px;
         overflow: hidden;
         border: 1px solid rgba(3, 38, 111, 0.13);
-        border-radius: 26px;
+        border-radius: 24px;
         background:
-          linear-gradient(145deg, rgba(255, 255, 255, 0.96), rgba(255, 255, 255, 0.78)),
+          linear-gradient(145deg, rgba(255, 255, 255, 0.98), rgba(255, 255, 255, 0.84)),
           var(--white);
-        padding: 28px;
+        padding: 28px 30px;
         box-shadow: var(--soft-shadow);
-        flex: 0 0 min(440px, 43%);
-        scroll-snap-align: start;
       }
 
       .reaction-card::before {
@@ -1058,9 +1048,9 @@
       }
 
       .reaction-card blockquote {
-        margin: 0 0 22px;
+        margin: 0 0 20px;
         color: var(--blue-950);
-        font-size: 1.1rem;
+        font-size: 1.16rem;
         font-weight: 850;
         line-height: 1.32;
       }
@@ -1076,6 +1066,21 @@
         margin-bottom: 10px;
         color: var(--blue-800);
         font-weight: 950;
+      }
+
+      .reaction-card.is-entering {
+        animation: reactionFade 220ms ease both;
+      }
+
+      @keyframes reactionFade {
+        from {
+          opacity: 0;
+          transform: translateY(8px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
       }
 
       .filmstrip {
@@ -1413,8 +1418,8 @@
           grid-template-columns: 1fr;
         }
 
-        .reaction-card {
-          flex-basis: min(520px, 72%);
+        .reaction-grid {
+          grid-template-columns: 1fr;
         }
 
       }
@@ -1494,7 +1499,7 @@
         }
 
         .reaction-card {
-          flex-basis: 92%;
+          min-height: 230px;
         }
 
         .card-content {
@@ -1925,7 +1930,8 @@
         activeId: PROJECTS[0].id,
         filter: "all",
         search: "",
-        comments: []
+        comments: [],
+        reactionIndex: 0
       };
 
       const root = document.documentElement;
@@ -2096,54 +2102,83 @@
         comments.forEach((comment) => commentList.append(makeCommentCard(comment)));
       }
 
-      function renderReactions() {
+      function getReactionItems() {
         const latest = [...state.comments]
           .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
           .slice(0, 3);
-        reactionGrid.innerHTML = "";
 
         if (!latest.length) {
-          [
-            ["Add a short reaction from someone who used the project or saw the trailer.", "Future stakeholder quote", "var(--yellow)"],
-            ["Capture what changed: faster alignment, clearer storytelling, or better reuse.", "Future project team note", "var(--sky)"],
-            ["Use this space for launch feedback once more H3L teams add their reels.", "Future H3L team comment", "var(--green)"]
-          ].forEach(([quote, caption, accent]) => {
-            const card = document.createElement("figure");
-            card.className = "reaction-card";
-            card.style.setProperty("--reaction-accent", accent);
-            card.innerHTML = `
-              <span class="quote-mark" aria-hidden="true">"</span>
-              <blockquote>${quote}</blockquote>
-              <figcaption>${caption}</figcaption>
-            `;
-            reactionGrid.append(card);
-          });
-          return;
+          return [
+            {
+              quote: "Add a short reaction from someone who used the project or saw the trailer.",
+              caption: "Future stakeholder quote",
+              accent: "var(--yellow)"
+            },
+            {
+              quote: "Capture what changed: faster alignment, clearer storytelling, or better reuse.",
+              caption: "Future project team note",
+              accent: "var(--sky)"
+            },
+            {
+              quote: "Use this space for launch feedback once more H3L teams add their reels.",
+              caption: "Future H3L team comment",
+              accent: "var(--green)"
+            }
+          ];
         }
 
-        latest.forEach((comment) => {
+        return latest.map((comment) => {
           const project = getProjectById(comment.projectId);
-          const card = document.createElement("figure");
-          card.className = "reaction-card";
-          card.style.setProperty("--reaction-accent", project.accent);
-
-          const quote = document.createElement("span");
-          quote.className = "quote-mark";
-          quote.setAttribute("aria-hidden", "true");
-          quote.textContent = '"';
-
-          const projectLabel = document.createElement("small");
-          projectLabel.textContent = comment.projectTitle;
-
-          const blockquote = document.createElement("blockquote");
-          appendText(blockquote, comment.text);
-
-          const caption = document.createElement("figcaption");
-          appendText(caption, `${comment.name || "H3L teammate"} / ${comment.team || "H3L"}`);
-
-          card.append(quote, projectLabel, blockquote, caption);
-          reactionGrid.append(card);
+          return {
+            quote: comment.text,
+            caption: `${comment.name || "H3L teammate"} / ${comment.team || "H3L"}`,
+            label: comment.projectTitle,
+            accent: project.accent
+          };
         });
+      }
+
+      function renderReactionCard(item) {
+        const card = document.createElement("figure");
+        card.className = "reaction-card is-entering";
+        card.style.setProperty("--reaction-accent", item.accent);
+
+        const quote = document.createElement("span");
+        quote.className = "quote-mark";
+        quote.setAttribute("aria-hidden", "true");
+        quote.textContent = '"';
+
+        card.append(quote);
+
+        if (item.label) {
+          const projectLabel = document.createElement("small");
+          projectLabel.textContent = item.label;
+          card.append(projectLabel);
+        }
+
+        const blockquote = document.createElement("blockquote");
+        appendText(blockquote, item.quote);
+
+        const caption = document.createElement("figcaption");
+        appendText(caption, item.caption);
+
+        card.append(blockquote, caption);
+        return card;
+      }
+
+      function renderReactions() {
+        const items = getReactionItems();
+        const visibleCount = window.matchMedia("(max-width: 720px)").matches ? 1 : 2;
+        reactionGrid.innerHTML = "";
+
+        if (state.reactionIndex >= items.length) {
+          state.reactionIndex = 0;
+        }
+
+        for (let offset = 0; offset < Math.min(visibleCount, items.length); offset += 1) {
+          const item = items[(state.reactionIndex + offset) % items.length];
+          reactionGrid.append(renderReactionCard(item));
+        }
       }
 
       async function sendCommentToEndpoint(comment) {
@@ -2321,9 +2356,11 @@
               return;
             }
 
-            const firstItem = target.firstElementChild;
-            const distance = firstItem ? firstItem.getBoundingClientRect().width + 16 : target.clientWidth * 0.8;
-            target.scrollBy({ left: distance * direction, behavior: "smooth" });
+            if (target === reactionGrid) {
+              const items = getReactionItems();
+              state.reactionIndex = (state.reactionIndex + direction + items.length) % items.length;
+              renderReactions();
+            }
           });
         });
       }
@@ -2535,6 +2572,7 @@
       hydrateFromHash();
       runVitalityCanvas();
       window.addEventListener("hashchange", hydrateFromHash);
+      window.addEventListener("resize", renderReactions);
     </script>
   </body>
 </html>

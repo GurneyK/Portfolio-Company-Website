@@ -6,6 +6,8 @@ This repo contains a SharePoint-friendly interactive video portfolio for the H3L
 
 - `index.html` is the normal browser/GitHub Pages version.
 - `h3l-project-reel-library.aspx` is the same page mirrored for SharePoint testing.
+- `h3l-showreel-pink.html` is an alternate H3L-color version with a stronger royal blue, violet, cyan, and pink palette.
+- `h3l-showreel-pink.aspx` is the matching active-page version of the alternate color treatment.
 - `assets/videos/` stores project trailer videos.
 - `assets/posters/` stores poster images used by cards and the hero.
 - `assets/brand/` stores the H3L logo.

@@ -303,11 +303,11 @@
 
       .primary-button {
         min-height: 50px;
-        border: 0;
-        background: var(--yellow);
+        border: 1px solid rgba(190, 212, 255, 0.7);
+        background: var(--white);
         color: var(--blue-950);
         padding: 13px 19px;
-        box-shadow: 0 16px 34px rgba(255, 209, 0, 0.22);
+        box-shadow: 0 16px 34px rgba(6, 24, 76, 0.18);
       }
 
       .primary-button:hover,
@@ -319,14 +319,15 @@
 
       .ghost-button {
         min-height: 50px;
-        border: 1px solid rgba(255, 255, 255, 0.2);
-        background: rgba(255, 255, 255, 0.08);
-        color: var(--white);
+        border: 1px solid rgba(190, 212, 255, 0.62);
+        background: rgba(255, 255, 255, 0.94);
+        color: var(--blue-950);
         padding: 12px 18px;
+        box-shadow: 0 14px 28px rgba(6, 24, 76, 0.16);
       }
 
       .ghost-button:hover {
-        background: rgba(255, 255, 255, 0.16);
+        background: var(--white);
       }
 
       .hero-search {
@@ -1152,8 +1153,9 @@
 
       .filter-button[aria-pressed="true"] {
         border-color: var(--blue-600);
-        background: var(--blue-950);
-        color: var(--white);
+        background: var(--white);
+        color: var(--blue-950);
+        box-shadow: inset 0 0 0 2px rgba(49, 84, 232, 0.18), 0 12px 24px rgba(38, 52, 201, 0.12);
       }
 
       .project-count {

@@ -1526,7 +1526,7 @@
             <a href="#story">Story</a>
             <a href="#reactions">Reactions</a>
             <a href="#gallery">Gallery</a>
-            <a href="#edit">Add videos</a>
+            <a href="#edit">Curated library</a>
           </div>
         </nav>
       </header>
@@ -1781,11 +1781,10 @@
             <div class="wrap">
               <div class="editor-note">
                 <div>
-                  <h2 id="edit-title">Built to keep growing.</h2>
+                  <h2 id="edit-title">Curated by H3L ownership.</h2>
                   <p>
-                    Add a video to <strong>assets/videos</strong>, add a poster to <strong>assets/posters</strong>,
-                    then copy one project object in the <strong>PROJECTS</strong> block. The HTML and ASPX files
-                    stay identical so future edits are straightforward.
+                    New trailers are added by the page owner through the source files, so the library stays
+                    intentional, approved, and easy for every H3L team to browse.
                   </p>
                 </div>
                 <a class="primary-button" href="#screening">Back to screening</a>

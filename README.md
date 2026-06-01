@@ -26,7 +26,9 @@ This repo contains a SharePoint-friendly interactive video portfolio for the H3L
 - Dynamic story map that explains what to notice while watching.
 - Per-project comments that appear under the active video and roll up into the reactions wall.
 
-## Adding Another Project
+## Owner-Only Project Updates
+
+The live page does not include public video uploads. New trailers should be added only by the page owner or approved repo maintainer.
 
 1. Add the MP4 to `assets/videos/`.
 2. Add a poster image to `assets/posters/`.

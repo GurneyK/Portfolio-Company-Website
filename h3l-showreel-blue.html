@@ -1922,6 +1922,39 @@
               body: "The trailer positions the project as a way to reduce friction and make deal intelligence easier to present, scan, and act on."
             }
           ]
+        },
+        {
+          id: "grace",
+          title: "Grace",
+          category: "ai",
+          video: "assets/videos/grace-teaser.mp4",
+          poster: "assets/posters/grace-teaser-poster.jpg",
+          runtime: "1:24",
+          seconds: 84,
+          accent: "#7b61ff",
+          accent2: "#f24ac3",
+          headline: "A new app story, ready to preview.",
+          kicker: "Grace app teaser",
+          purpose: "A teaser for the Grace app experience and its project story.",
+          people: "H3L contributors",
+          outcome: "A concise preview that helps viewers understand the product direction, tone, and intended experience.",
+          tags: ["App experience", "Product teaser", "Prototype"],
+          description:
+            "A project teaser for Grace, showing how the app concept, interface direction, and user value can come together in a focused story.",
+          chapters: [
+            {
+              title: "The concept is introduced clearly",
+              body: "The teaser gives viewers a quick first read on what Grace is and why the experience matters."
+            },
+            {
+              title: "The interface creates momentum",
+              body: "The reel uses product moments to make the app feel tangible instead of abstract."
+            },
+            {
+              title: "The preview sets up the next conversation",
+              body: "The story leaves room for teams to discuss use cases, product direction, and where the experience should go next."
+            }
+          ]
         }
       ];
 

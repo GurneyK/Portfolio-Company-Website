@@ -1928,7 +1928,7 @@
           title: "Grace",
           category: "ai",
           video: "assets/videos/grace-teaser.mp4",
-          poster: "assets/posters/grace-teaser-poster.jpg",
+          poster: "assets/posters/grace-teaser-poster.jpg?v=2",
           runtime: "1:24",
           seconds: 84,
           accent: "#7b61ff",

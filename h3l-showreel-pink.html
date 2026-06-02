@@ -1925,6 +1925,7 @@
           category: "ai",
           video: "assets/videos/grace-teaser.mp4",
           poster: "assets/posters/grace-teaser-poster.jpg?v=2",
+          staticPreview: true,
           runtime: "1:24",
           seconds: 84,
           accent: "#7b61ff",
@@ -2289,8 +2290,14 @@
         activeVideo.poster = project.poster;
         activeVideo.src = project.video;
         heroPreviewVideo.poster = project.poster;
-        heroPreviewVideo.src = project.video;
-        heroPreviewVideo.play().catch(() => {});
+        if (project.staticPreview) {
+          heroPreviewVideo.pause();
+          heroPreviewVideo.removeAttribute("src");
+          heroPreviewVideo.load();
+        } else {
+          heroPreviewVideo.src = project.video;
+          heroPreviewVideo.play().catch(() => {});
+        }
         heroProjectTitle.textContent = project.title;
         heroProjectKicker.textContent = project.kicker;
         heroProjectHeadline.textContent = project.headline;
@@ -2326,7 +2333,7 @@
         button.setAttribute("aria-label", `Open ${project.title} in the screening room`);
         button.innerHTML = `
           <img src="${project.poster}" alt="${project.title} poster" loading="lazy" />
-          <video src="${project.video}" muted loop playsinline preload="metadata" aria-hidden="true"></video>
+          ${project.staticPreview ? "" : `<video src="${project.video}" muted loop playsinline preload="metadata" aria-hidden="true"></video>`}
           <span class="card-content">
             <h3>${project.title}</h3>
             <p>${project.description}</p>
@@ -2340,15 +2347,17 @@
 
         const previewVideo = button.querySelector("video");
         button.addEventListener("click", () => setActiveProject(project));
-        button.addEventListener("mouseenter", () => {
-          button.classList.add("is-previewing");
-          previewVideo.currentTime = Math.min(previewVideo.duration || 0, 1);
-          previewVideo.play().catch(() => {});
-        });
-        button.addEventListener("mouseleave", () => {
-          button.classList.remove("is-previewing");
-          previewVideo.pause();
-        });
+        if (previewVideo) {
+          button.addEventListener("mouseenter", () => {
+            button.classList.add("is-previewing");
+            previewVideo.currentTime = Math.min(previewVideo.duration || 0, 1);
+            previewVideo.play().catch(() => {});
+          });
+          button.addEventListener("mouseleave", () => {
+            button.classList.remove("is-previewing");
+            previewVideo.pause();
+          });
+        }
 
         return button;
       }

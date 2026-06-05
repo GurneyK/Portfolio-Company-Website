@@ -10,26 +10,26 @@
     />
     <style>
       :root {
-        --blue-950: #02143a;
-        --blue-900: #03266f;
-        --blue-800: #073b91;
-        --blue-600: #006dd9;
-        --sky: #5bd7ff;
-        --green: #14b86a;
-        --yellow: #ffd100;
-        --pink: #ff4f9a;
-        --paper: #f7fbff;
-        --ink: #0d1b2f;
-        --muted: #63718a;
+        --blue-950: #06184c;
+        --blue-900: #2634c9;
+        --blue-800: #3154e8;
+        --blue-600: #0b63f6;
+        --sky: #22c8ff;
+        --green: #3fd0bb;
+        --yellow: #3154e8;
+        --pink: #f24ac3;
+        --paper: #f8fbff;
+        --ink: #101a3d;
+        --muted: #66728d;
         --white: #ffffff;
-        --line: rgba(180, 207, 238, 0.36);
-        --shadow: 0 26px 80px rgba(0, 20, 70, 0.32);
-        --soft-shadow: 0 18px 44px rgba(0, 32, 95, 0.16);
+        --line: rgba(190, 212, 255, 0.44);
+        --shadow: 0 26px 80px rgba(6, 24, 76, 0.34);
+        --soft-shadow: 0 18px 44px rgba(38, 52, 201, 0.14);
         --cursor-x: 50%;
         --cursor-y: 18%;
-        --active-accent: #ffd100;
-        --active-accent-2: #14b86a;
-        --focus: 0 0 0 4px rgba(91, 215, 255, 0.34);
+        --active-accent: #3154e8;
+        --active-accent-2: #f24ac3;
+        --focus: 0 0 0 4px rgba(49, 84, 232, 0.28);
       }
 
       * {
@@ -107,8 +107,10 @@
         min-height: 100vh;
         overflow-x: hidden;
         background:
-          radial-gradient(circle at var(--cursor-x) var(--cursor-y), rgba(91, 215, 255, 0.18), transparent 24rem),
-          linear-gradient(180deg, #031a52 0%, #02143a 42%, #f7fbff 42%, #eef9f8 100%);
+          radial-gradient(circle at var(--cursor-x) var(--cursor-y), rgba(49, 84, 232, 0.2), transparent 24rem),
+          radial-gradient(circle at 78% 15%, rgba(242, 74, 195, 0.12), transparent 18rem),
+          radial-gradient(circle at 16% 38%, rgba(34, 200, 255, 0.12), transparent 20rem),
+          linear-gradient(180deg, #07164b 0%, #2634c9 42%, #f8fbff 42%, #eef5ff 100%);
       }
 
       .topbar {
@@ -116,7 +118,7 @@
         top: 0;
         z-index: 40;
         border-bottom: 1px solid rgba(255, 255, 255, 0.14);
-        background: rgba(2, 20, 58, 0.78);
+        background: rgba(6, 24, 76, 0.84);
         backdrop-filter: blur(18px);
       }
 
@@ -301,11 +303,11 @@
 
       .primary-button {
         min-height: 50px;
-        border: 0;
-        background: var(--yellow);
+        border: 1px solid rgba(190, 212, 255, 0.7);
+        background: var(--white);
         color: var(--blue-950);
         padding: 13px 19px;
-        box-shadow: 0 16px 34px rgba(255, 209, 0, 0.22);
+        box-shadow: 0 16px 34px rgba(6, 24, 76, 0.18);
       }
 
       .primary-button:hover,
@@ -317,14 +319,15 @@
 
       .ghost-button {
         min-height: 50px;
-        border: 1px solid rgba(255, 255, 255, 0.2);
-        background: rgba(255, 255, 255, 0.08);
-        color: var(--white);
+        border: 1px solid rgba(190, 212, 255, 0.62);
+        background: rgba(255, 255, 255, 0.94);
+        color: var(--blue-950);
         padding: 12px 18px;
+        box-shadow: 0 14px 28px rgba(6, 24, 76, 0.16);
       }
 
       .ghost-button:hover {
-        background: rgba(255, 255, 255, 0.16);
+        background: var(--white);
       }
 
       .hero-search {
@@ -515,9 +518,10 @@
 
       .light {
         background:
-          radial-gradient(circle at 82% 8%, rgba(255, 209, 0, 0.16), transparent 17rem),
-          radial-gradient(circle at 12% 42%, rgba(91, 215, 255, 0.16), transparent 20rem),
-          linear-gradient(180deg, #f7fbff 0%, #eef9f8 100%);
+          radial-gradient(circle at 82% 8%, rgba(49, 84, 232, 0.12), transparent 17rem),
+          radial-gradient(circle at 12% 42%, rgba(34, 200, 255, 0.12), transparent 20rem),
+          radial-gradient(circle at 72% 58%, rgba(242, 74, 195, 0.08), transparent 18rem),
+          linear-gradient(180deg, #f8fbff 0%, #eef5ff 100%);
       }
 
       .section {
@@ -1149,8 +1153,9 @@
 
       .filter-button[aria-pressed="true"] {
         border-color: var(--blue-600);
-        background: var(--blue-950);
-        color: var(--white);
+        background: var(--white);
+        color: var(--blue-950);
+        box-shadow: inset 0 0 0 2px rgba(49, 84, 232, 0.18), 0 12px 24px rgba(38, 52, 201, 0.12);
       }
 
       .project-count {
@@ -1304,7 +1309,7 @@
       }
 
       .footer {
-        background: #eef9f8;
+        background: #eef5ff;
         color: var(--muted);
         padding: 32px 0 42px;
       }
@@ -1827,8 +1832,8 @@
           poster: "assets/posters/design-library-poster.jpg",
           runtime: "1:09",
           seconds: 69,
-          accent: "#ffd100",
-          accent2: "#14b86a",
+          accent: "#3154e8",
+          accent2: "#f24ac3",
           headline: "Reusable systems, made visible.",
           kicker: "Featured reel",
           purpose: "A visual trailer for the H3L design library and reusable standards.",
@@ -1860,8 +1865,8 @@
           poster: "assets/posters/agent-builders-poster.jpg",
           runtime: "1:06",
           seconds: 66,
-          accent: "#5bd7ff",
-          accent2: "#ff4f9a",
+          accent: "#22c8ff",
+          accent2: "#3154e8",
           headline: "Agent workflows with momentum.",
           kicker: "Interactive prototype",
           purpose: "A trailer for the agent-building experience and workflow story.",
@@ -1893,8 +1898,8 @@
           poster: "assets/posters/dealigence-poster.jpg",
           runtime: "1:35",
           seconds: 95,
-          accent: "#14b86a",
-          accent2: "#ffd100",
+          accent: "#2634c9",
+          accent2: "#f24ac3",
           headline: "Deal review, made easier to follow.",
           kicker: "Business intelligence reel",
           purpose: "A trailer for the Dealigence experience and its deal-review workflow.",

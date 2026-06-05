@@ -1,15 +1,10 @@
 # H3L Showreel Studio
 
-This repo contains a SharePoint-friendly interactive video portfolio for the H3L team.
+This repo contains the H3L interactive video portfolio for company website hosting.
 
 ## Files
 
-- `index.html` is the normal browser/GitHub Pages version.
-- `h3l-project-reel-library.aspx` is the same page mirrored for SharePoint testing.
-- `h3l-showreel-pink.html` is an alternate H3L-color version with a stronger royal blue, violet, cyan, and pink palette.
-- `h3l-showreel-pink.aspx` is the matching active-page version of the alternate color treatment.
-- `h3l-showreel-blue.html` is a brighter H3L version with a blue and white base plus small pink and purple accents.
-- `h3l-showreel-blue.aspx` is the matching active-page version of the blue color treatment.
+- `index.html` is the main page your IT team should host.
 - `assets/videos/` stores project trailer videos.
 - `assets/posters/` stores poster images used by cards and the hero.
 - `assets/brand/` stores the H3L logo.
@@ -34,7 +29,6 @@ The live page does not include public video uploads. New trailers should be adde
 2. Add a poster image to `assets/posters/`.
 3. Open `index.html` and copy one object inside the `PROJECTS` array near the bottom.
 4. Update the copied object's `id`, `title`, `category`, `video`, `poster`, `runtime`, `seconds`, `purpose`, `people`, `outcome`, `tags`, `description`, and `chapters`.
-5. Copy the updated `index.html` content into `h3l-project-reel-library.aspx`.
 
 ## Comments
 
@@ -52,6 +46,6 @@ Comments work immediately in browser storage for previewing and demos. For share
 }
 ```
 
-## SharePoint Note
+## Hosting Note
 
-SharePoint Online may block custom `.aspx` files unless custom script is enabled for the site and the uploader has the right permissions. If the `.aspx` downloads instead of rendering, ask the SharePoint admin whether custom script is allowed for that specific site.
+Host `index.html` from the repo root and keep the `assets/` folder beside it so video and poster paths resolve correctly.

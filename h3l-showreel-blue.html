@@ -1924,6 +1924,39 @@
           ]
         },
         {
+          id: "tier-n",
+          title: "Tier-N",
+          category: "business",
+          video: "assets/videos/tier-n-detailed-explainer.mp4",
+          poster: "assets/posters/tier-n-poster.jpg?v=1",
+          runtime: "8:48",
+          seconds: 528,
+          accent: "#7b61ff",
+          accent2: "#22c8ff",
+          headline: "A detailed explainer for Tier-N.",
+          kicker: "Detailed explainer video",
+          purpose: "A detailed explainer video for the Tier-N experience and its project story.",
+          people: "H3L contributors",
+          outcome: "A clearer walkthrough that helps viewers understand the product concept, workflow, and value.",
+          tags: ["Detailed explainer", "Business workflow", "Product story"],
+          description:
+            "A detailed explainer video for Tier-N, walking viewers through the project concept, experience flow, and intended value for teams.",
+          chapters: [
+            {
+              title: "The project context is established",
+              body: "The explainer gives viewers the setup they need before moving into the product story."
+            },
+            {
+              title: "The workflow becomes easier to follow",
+              body: "The longer format helps the audience understand how the experience works across key steps."
+            },
+            {
+              title: "The value is made explicit",
+              body: "The video connects the interface, process, and outcome so viewers can see why Tier-N matters."
+            }
+          ]
+        },
+        {
           id: "grace",
           title: "Grace",
           category: "ai",

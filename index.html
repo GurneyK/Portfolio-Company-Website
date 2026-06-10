@@ -491,7 +491,7 @@
 
       .stat-panel {
         display: grid;
-        grid-template-columns: repeat(4, 1fr);
+        grid-template-columns: repeat(3, 1fr);
         gap: 1px;
         margin-top: 34px;
         overflow: hidden;
@@ -1042,13 +1042,20 @@
         justify-content: center;
         width: 42px;
         height: 42px;
-        margin-bottom: 18px;
+        flex: 0 0 42px;
         border-radius: 50%;
         background: color-mix(in srgb, var(--reaction-accent) 18%, white);
         color: var(--blue-950);
         font-size: 1.8rem;
         font-weight: 950;
         line-height: 1;
+      }
+
+      .reaction-card-head {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        margin-bottom: 20px;
       }
 
       .reaction-card blockquote {
@@ -1067,9 +1074,10 @@
 
       .reaction-card small {
         display: inline-flex;
-        margin-bottom: 10px;
+        min-width: 0;
         color: var(--blue-800);
         font-weight: 950;
+        line-height: 1.25;
       }
 
       .reaction-card.is-entering {
@@ -1522,7 +1530,7 @@
             <img src="assets/brand/h3l-logo.png" alt="H3L logo" />
             <span>
               <strong>H3L Showreel Studio</strong>
-              <span>Portfolio for every H3L team</span>
+              <span>Portfolio for all of H3L</span>
             </span>
           </a>
           <div class="nav-links">
@@ -1547,8 +1555,8 @@
                 <span>Studio</span>
               </h1>
               <p class="hero-copy">
-                A cinematic portfolio wall for H3L trailers from every team. Pick a project,
-                watch the reel, scan the story, and copy a direct link when the work needs to travel.
+                A cinematic portfolio wall for H3L trailers across the organization. Pick a project,
+                watch the reel, scan the story, and follow the work in one place.
               </p>
               <div class="hero-actions">
                 <a class="primary-button" href="#screening">Enter the studio</a>
@@ -1557,10 +1565,10 @@
               <label class="hero-search">
                 <span class="search-mark" aria-hidden="true"></span>
                 <span class="sr-only">Search project videos</span>
-                <input id="projectSearch" type="search" placeholder="Search project, purpose, team, or story" />
+                <input id="projectSearch" type="search" placeholder="Search project, purpose, area, or story" />
               </label>
               <div class="hero-notes" aria-label="Experience highlights">
-                <span>Built for H3L teams</span>
+                <span>Built for all of H3L</span>
                 <span>Keyboard accessible</span>
                 <span>Real trailer media</span>
               </div>
@@ -1581,7 +1589,7 @@
               <div class="screen-footer">
                 <span>
                   <h2 id="heroProjectHeadline">Reusable systems, made visible.</h2>
-                  <p id="heroProjectLine">A fast visual route into the team's project work.</p>
+                  <p id="heroProjectLine">A fast visual route into H3L project work.</p>
                 </span>
                 <a class="primary-button" href="#screening">Watch now</a>
               </div>
@@ -1598,12 +1606,8 @@
               <span>Total watch time</span>
             </div>
             <div class="stat">
-              <strong>ASPX</strong>
-              <span>Active page version included</span>
-            </div>
-            <div class="stat">
-              <strong>1 link</strong>
-              <span>Each project is shareable</span>
+              <strong id="statReactions">0</strong>
+              <span>Reactions shared</span>
             </div>
           </div>
         </section>
@@ -1669,7 +1673,7 @@
                   <h2 id="conversation-title">Add feedback for this reel.</h2>
                   <p>
                     Keep the conversation attached to the video people just watched. Notes here roll
-                    up into the team reactions section.
+                    up into the H3L reactions section.
                   </p>
                   <p class="comment-help">
                     For a shared live launch, connect the comment endpoint in the settings block near the project data.
@@ -1682,7 +1686,7 @@
                     <input id="commentName" name="name" autocomplete="name" maxlength="80" required />
                   </label>
                   <label>
-                    Team or role
+                    Role or area
                     <input id="commentTeam" name="team" autocomplete="organization" maxlength="80" />
                   </label>
                   <label>
@@ -1691,7 +1695,7 @@
                       id="commentText"
                       name="comment"
                       maxlength="600"
-                      placeholder="What stood out, what should the team know, or what should we add next?"
+                      placeholder="What stood out, what should H3L know, or what should we add next?"
                       required
                     ></textarea>
                   </label>
@@ -1726,15 +1730,15 @@
             <div class="wrap">
               <div class="section-heading">
                 <div>
-                  <p class="eyebrow"><span class="spark"></span> Team reactions</p>
+                  <p class="eyebrow"><span class="spark"></span> H3L reactions</p>
                   <h2 id="reactions-title">Comments can live here next.</h2>
                 </div>
                 <div>
                   <p>
                     Once people start watching, this section is ready for short quotes from project
-                    leads, stakeholders, and teams who reused the work.
+                    leads, stakeholders, and H3L viewers who reused the work.
                   </p>
-                  <div class="carousel-controls" aria-label="Team reactions carousel controls">
+                  <div class="carousel-controls" aria-label="H3L reactions carousel controls">
                     <button class="carousel-button" type="button" data-carousel-target="reactionGrid" data-direction="-1">
                       Previous reactions
                     </button>
@@ -1745,7 +1749,7 @@
                 </div>
               </div>
 
-              <div class="reaction-grid" id="reactionGrid" aria-label="Latest team comments"></div>
+              <div class="reaction-grid" id="reactionGrid" aria-label="Latest H3L comments"></div>
             </div>
           </section>
 
@@ -1788,7 +1792,7 @@
                   <h2 id="edit-title">Curated by H3L ownership.</h2>
                   <p>
                     New trailers are added by the page owner through the source files, so the library stays
-                    intentional, approved, and easy for every H3L team to browse.
+                    intentional, approved, and easy for H3L to browse.
                   </p>
                 </div>
                 <a class="primary-button" href="#screening">Back to screening</a>
@@ -1801,7 +1805,6 @@
       <footer class="footer">
         <div class="wrap">
           <span>H3L Showreel Studio</span>
-          <span>Built as HTML and ASPX for H3L project storytelling.</span>
         </div>
       </footer>
     </div>
@@ -1838,14 +1841,14 @@
           kicker: "Featured reel",
           purpose: "A visual trailer for the H3L design library and reusable standards.",
           people: "H3L contributors",
-          outcome: "A clearer path for teams to find, trust, and reuse shared interface patterns.",
+          outcome: "A clearer path for H3L to find, trust, and reuse shared interface patterns.",
           tags: ["Design system", "Enablement", "Reusable UI"],
           description:
-            "A polished overview of the design library work, created to help teams understand the system, see the quality bar, and reuse shared patterns with confidence.",
+            "A polished overview of the design library work, created to help H3L understand the system, see the quality bar, and reuse shared patterns with confidence.",
           chapters: [
             {
               title: "The problem is instantly legible",
-              body: "The opening question makes the value clear: teams should not rebuild the same UI decisions over and over."
+              body: "The opening question makes the value clear: H3L should not rebuild the same UI decisions over and over."
             },
             {
               title: "Scale becomes tangible",
@@ -1871,7 +1874,7 @@
           kicker: "Interactive prototype",
           purpose: "A trailer for the agent-building experience and workflow story.",
           people: "H3L contributors",
-          outcome: "A prototype narrative that shows how teams can move from prompt to structured agent work.",
+          outcome: "A prototype narrative that shows how H3L can move from prompt to structured agent work.",
           tags: ["AI", "Builder workflow", "Prototype"],
           description:
             "A fast, energetic walkthrough of the Agent Builders experience, showing how ideas move from template selection into agent collaboration, briefing, and generated work.",
@@ -1907,7 +1910,7 @@
           outcome: "A clearer way to present complex deal intelligence, workflow context, and decision support.",
           tags: ["Business intelligence", "Workflow", "Decision support"],
           description:
-            "A project trailer for Dealigence, showing how a focused digital experience can make deal review, context, and next steps easier for teams to understand.",
+            "A project trailer for Dealigence, showing how a focused digital experience can make deal review, context, and next steps easier for H3L to understand.",
           chapters: [
             {
               title: "The use case is introduced quickly",
@@ -1940,7 +1943,7 @@
           outcome: "A clearer walkthrough that helps viewers understand the product concept, workflow, and value.",
           tags: ["Detailed explainer", "Business workflow", "Product story"],
           description:
-            "A detailed explainer video for Tier-N, walking viewers through the project concept, experience flow, and intended value for teams.",
+            "A detailed explainer video for Tier-N, walking viewers through the project concept, experience flow, and intended value for H3L.",
           chapters: [
             {
               title: "The project context is established",
@@ -1985,7 +1988,7 @@
             },
             {
               title: "The preview sets up the next conversation",
-              body: "The story leaves room for teams to discuss use cases, product direction, and where the experience should go next."
+              body: "The story leaves room for H3L to discuss use cases, product direction, and where the experience should go next."
             }
           ]
         },
@@ -2003,7 +2006,7 @@
           kicker: "AI agent building platform",
           purpose: "A project trailer for the Nexus agent-building platform experience.",
           people: "H3L contributors",
-          outcome: "A concise reel that shows how teams can move from an idea into a working agent prototype.",
+          outcome: "A concise reel that shows how H3L can move from an idea into a working agent prototype.",
           tags: ["AI", "Agent building", "Nexus"],
           description:
             "A project trailer for the Nexus agent-building platform, showing how ideas can become working agents with real data, tools, and deployment paths.",
@@ -2018,7 +2021,7 @@
             },
             {
               title: "The value lands on speed",
-              body: "The trailer makes the practical takeaway clear: teams can prototype and deploy agents faster."
+              body: "The trailer makes the practical takeaway clear: H3L can prototype and deploy agents faster."
             }
           ]
         },
@@ -2039,11 +2042,11 @@
           outcome: "A focused reel that shows how the agent can reduce manual lookups and keep CUC/PIRD outputs aligned.",
           tags: ["AI", "Personal Care", "Regulatory workflow"],
           description:
-            "A project trailer for the CUC PIRD Agent, showing how Personal Care teams can move from distribution unit lookup to verified CUC and PIRD outputs.",
+            "A project trailer for the CUC PIRD Agent, showing how H3L can move from distribution unit lookup to verified CUC and PIRD outputs.",
           chapters: [
             {
               title: "The manual lookup problem is clear",
-              body: "The reel frames the scale of distribution units and PIRD records that teams need to manage."
+              body: "The reel frames the scale of distribution units and PIRD records that H3L needs to manage."
             },
             {
               title: "The agent workflow becomes tangible",
@@ -2129,6 +2132,7 @@
       const playerNowLabel = document.querySelector("#playerNowLabel");
       const statCount = document.querySelector("#statCount");
       const statMinutes = document.querySelector("#statMinutes");
+      const statReactions = document.querySelector("#statReactions");
       const heroProjectTitle = document.querySelector("#heroProjectTitle");
       const heroProjectKicker = document.querySelector("#heroProjectKicker");
       const heroProjectHeadline = document.querySelector("#heroProjectHeadline");
@@ -2231,6 +2235,21 @@
         parent.append(document.createTextNode(text));
       }
 
+      function getDisplayName(value) {
+        return (value || "").trim() || "H3L member";
+      }
+
+      function getDisplayRole(value) {
+        const role = (value || "").trim();
+        return !role || role.toLowerCase() === "student" ? "H3L Team Member" : role;
+      }
+
+      function updateStats() {
+        statCount.textContent = PROJECTS.length;
+        statMinutes.textContent = formatTotalTime(PROJECTS);
+        statReactions.textContent = state.comments.length;
+      }
+
       function makeCommentCard(comment, includeProject = false) {
         const card = document.createElement("article");
         card.className = "comment-card";
@@ -2239,9 +2258,9 @@
         appendText(body, comment.text);
 
         const footer = document.createElement("footer");
-        appendText(footer, comment.name || "H3L teammate");
+        appendText(footer, getDisplayName(comment.name));
         appendText(footer, " / ");
-        appendText(footer, comment.team || "H3L");
+        appendText(footer, getDisplayRole(comment.team));
         appendText(footer, " / ");
         appendText(footer, formatCommentDate(comment.createdAt));
 
@@ -2263,7 +2282,7 @@
         if (!comments.length) {
           const empty = document.createElement("div");
           empty.className = "comment-empty";
-          empty.textContent = "No comments for this reel yet. Add the first note for the team.";
+          empty.textContent = "No comments for this reel yet. Add the first note for H3L.";
           commentList.append(empty);
           return;
         }
@@ -2284,13 +2303,13 @@
               accent: "var(--yellow)"
             },
             {
-              quote: "Capture what changed: faster alignment, clearer storytelling, or better reuse.",
-              caption: "Future project team note",
+              quote: "Capture what changed: faster alignment, clearer storytelling, or stronger reuse.",
+              caption: "Future H3L project note",
               accent: "var(--sky)"
             },
             {
-              quote: "Use this space for launch feedback once more H3L teams add their reels.",
-              caption: "Future H3L team comment",
+              quote: "Use this space for launch feedback once more H3L project reels are added.",
+              caption: "Future H3L comment",
               accent: "var(--green)"
             }
           ];
@@ -2300,7 +2319,7 @@
           const project = getProjectById(comment.projectId);
           return {
             quote: comment.text,
-            caption: `${comment.name || "H3L teammate"} / ${comment.team || "H3L"}`,
+            caption: `${getDisplayName(comment.name)} / ${getDisplayRole(comment.team)}`,
             label: comment.projectTitle,
             accent: project.accent
           };
@@ -2317,12 +2336,14 @@
         quote.setAttribute("aria-hidden", "true");
         quote.textContent = '"';
 
-        card.append(quote);
+        const cardHead = document.createElement("div");
+        cardHead.className = "reaction-card-head";
+        cardHead.append(quote);
 
         if (item.label) {
           const projectLabel = document.createElement("small");
           projectLabel.textContent = item.label;
-          card.append(projectLabel);
+          cardHead.append(projectLabel);
         }
 
         const blockquote = document.createElement("blockquote");
@@ -2331,7 +2352,7 @@
         const caption = document.createElement("figcaption");
         appendText(caption, item.caption);
 
-        card.append(blockquote, caption);
+        card.append(cardHead, blockquote, caption);
         return card;
       }
 
@@ -2551,7 +2572,7 @@
             projectId: project.id,
             projectTitle: project.title,
             name: commentName.value.trim(),
-            team: commentTeam.value.trim(),
+            team: getDisplayRole(commentTeam.value),
             text: commentText.value.trim(),
             createdAt: new Date().toISOString()
           };
@@ -2565,6 +2586,7 @@
           saveComments();
           renderProjectComments(project);
           renderReactions();
+          updateStats();
           commentText.value = "";
           showToast(`Comment added to ${project.title}.`);
           sendCommentToEndpoint(comment);
@@ -2736,9 +2758,8 @@
         window.addEventListener("resize", resize);
       }
 
-      statCount.textContent = PROJECTS.length;
-      statMinutes.textContent = formatTotalTime(PROJECTS);
       loadComments();
+      updateStats();
       bindFilters();
       bindSearch();
       bindComments();

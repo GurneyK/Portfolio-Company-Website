@@ -15,7 +15,7 @@ This repo contains the H3L interactive video portfolio for company website hosti
 - Sticky navigation with a skip link for keyboard users.
 - Search and category filters for the project gallery.
 - Featured project dock for fast switching between trailers.
-- Focused video player with details, tags, outcomes, and team credits.
+- Focused video player with details, tags, outcomes, and contributor credits.
 - Cinema mode for a larger viewing experience.
 - Copyable project links using each project's `id` hash.
 - Dynamic story map that explains what to notice while watching.
@@ -32,7 +32,7 @@ The live page does not include public video uploads. New trailers should be adde
 
 ## Comments
 
-Comments work immediately in browser storage for previewing and demos. For shared live comments across all viewers, connect a team endpoint in `COMMENT_SETTINGS.endpoint` near the `PROJECTS` block. The page posts this JSON shape:
+Comments work immediately in browser storage for previewing and demos. For shared live comments across all viewers, connect an approved endpoint in `COMMENT_SETTINGS.endpoint` near the `PROJECTS` block. The page posts this JSON shape:
 
 ```json
 {
@@ -40,7 +40,7 @@ Comments work immediately in browser storage for previewing and demos. For share
   "projectId": "design-library",
   "projectTitle": "Design Library",
   "name": "Reviewer name",
-  "team": "Team or role",
+  "team": "Role or area",
   "text": "Comment text",
   "createdAt": "2026-05-27T00:00:00.000Z"
 }

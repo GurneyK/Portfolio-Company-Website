@@ -641,6 +641,66 @@
         color: var(--muted);
       }
 
+      .about-strip {
+        padding: 42px 0 16px;
+      }
+
+      .about-content {
+        display: grid;
+        grid-template-columns: minmax(260px, 0.68fr) minmax(0, 1fr);
+        gap: 30px;
+        align-items: end;
+        padding-bottom: 32px;
+        border-bottom: 1px solid rgba(3, 38, 111, 0.11);
+      }
+
+      .about-content h2 {
+        margin-bottom: 0;
+        color: var(--blue-950);
+        font-size: clamp(2.1rem, 4vw, 4.1rem);
+        line-height: 0.92;
+      }
+
+      .about-copy {
+        display: grid;
+        gap: 16px;
+      }
+
+      .about-copy p {
+        margin-bottom: 0;
+        color: var(--muted);
+        font-size: 1.02rem;
+      }
+
+      .about-points {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 10px;
+      }
+
+      .about-point {
+        min-height: 94px;
+        border-top: 4px solid var(--active-accent);
+        border-radius: 0 0 18px 18px;
+        background: rgba(255, 255, 255, 0.7);
+        padding: 13px 14px;
+      }
+
+      .about-point strong {
+        display: block;
+        margin-bottom: 5px;
+        color: var(--blue-950);
+        font-size: 0.9rem;
+      }
+
+      .about-point span {
+        display: block;
+        color: var(--muted);
+        font-size: 0.82rem;
+        font-weight: 750;
+        line-height: 1.35;
+      }
+
       .project-dock {
         position: relative;
         display: grid;
@@ -1501,6 +1561,7 @@
         .hero-grid,
         .theatre,
         .story-stage,
+        .about-content,
         .section-heading,
         .conversation-panel {
           grid-template-columns: 1fr;
@@ -1508,6 +1569,10 @@
 
         .story-list {
           grid-template-columns: 1fr;
+        }
+
+        .about-content {
+          align-items: start;
         }
 
         .stat-panel {
@@ -1587,6 +1652,19 @@
           grid-column: 2;
           justify-self: start;
           margin-top: -2px;
+        }
+
+        .about-strip {
+          padding-top: 34px;
+        }
+
+        .about-content {
+          gap: 20px;
+          padding-bottom: 26px;
+        }
+
+        .about-points {
+          grid-template-columns: 1fr;
         }
 
         .screen-card,
@@ -1736,6 +1814,36 @@
         </section>
 
         <div class="light">
+          <section class="about-strip" id="about" aria-labelledby="about-title">
+            <div class="wrap about-content">
+              <div>
+                <p class="eyebrow"><span class="spark"></span> Why this exists</p>
+                <h2 id="about-title">A clearer window into H3L work.</h2>
+              </div>
+              <div class="about-copy">
+                <p>
+                  H3L is Unilever's Horizon3 Lab, where AI, data, design, and product thinking turn
+                  emerging ideas into practical tools for the business. This showreel gives that work a shared place to
+                  be seen, understood, and reused by the people who can build on it.
+                </p>
+                <div class="about-points" aria-label="Showreel purpose">
+                  <div class="about-point">
+                    <strong>See the work</strong>
+                    <span>Quickly understand what has been built and why it matters.</span>
+                  </div>
+                  <div class="about-point">
+                    <strong>Find the fit</strong>
+                    <span>Connect each project to the audience, workflow, or problem it supports.</span>
+                  </div>
+                  <div class="about-point">
+                    <strong>Build from it</strong>
+                    <span>Spot ideas, patterns, and capabilities that can be reused across H3L.</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+
           <section class="section" id="screening" aria-labelledby="screening-title">
             <div class="wrap">
               <div class="section-heading">

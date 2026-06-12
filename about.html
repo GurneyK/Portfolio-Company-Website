@@ -1,0 +1,553 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>About H3L | H3L Showreel Studio</title>
+    <meta
+      name="description"
+      content="About Horizon3 Labs, Unilever's Toronto-based global AI lab and the people behind the H3L showreel."
+    />
+    <style>
+      :root {
+        --blue-950: #06184c;
+        --blue-900: #2634c9;
+        --blue-800: #3154e8;
+        --sky: #22c8ff;
+        --pink: #f24ac3;
+        --violet: #7b61ff;
+        --ink: #091844;
+        --muted: #5d6d8d;
+        --white: #ffffff;
+        --paper: #f6f9ff;
+        --line: rgba(3, 38, 111, 0.13);
+        --shadow: 0 24px 70px rgba(6, 24, 76, 0.16);
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      html {
+        scroll-behavior: smooth;
+      }
+
+      body {
+        margin: 0;
+        background:
+          radial-gradient(circle at 80% 10%, rgba(242, 74, 195, 0.12), transparent 18rem),
+          radial-gradient(circle at 12% 42%, rgba(34, 200, 255, 0.14), transparent 22rem),
+          linear-gradient(180deg, #f8fbff 0%, #eef5ff 100%);
+        color: var(--ink);
+        font-family:
+          Inter,
+          ui-sans-serif,
+          system-ui,
+          -apple-system,
+          BlinkMacSystemFont,
+          "Segoe UI",
+          sans-serif;
+        line-height: 1.55;
+      }
+
+      a {
+        color: inherit;
+      }
+
+      .wrap {
+        width: min(1160px, calc(100% - 32px));
+        margin: 0 auto;
+      }
+
+      .topbar {
+        position: sticky;
+        top: 0;
+        z-index: 20;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+        background: rgba(6, 24, 76, 0.9);
+        backdrop-filter: blur(18px);
+      }
+
+      .nav {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 18px;
+        min-height: 76px;
+      }
+
+      .brand {
+        display: inline-flex;
+        align-items: center;
+        gap: 12px;
+        color: var(--white);
+        font-weight: 950;
+        text-decoration: none;
+      }
+
+      .brand img {
+        width: 44px;
+        height: 44px;
+        border-radius: 12px;
+        background: var(--white);
+        object-fit: contain;
+        padding: 7px;
+      }
+
+      .brand span span {
+        display: block;
+        color: rgba(255, 255, 255, 0.68);
+        font-size: 0.82rem;
+        font-weight: 750;
+      }
+
+      .nav-links {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .nav-links a,
+      .pill-button {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 42px;
+        border: 1px solid rgba(255, 255, 255, 0.22);
+        border-radius: 999px;
+        color: var(--white);
+        padding: 10px 15px;
+        font-size: 0.88rem;
+        font-weight: 900;
+        text-decoration: none;
+      }
+
+      .nav-links a[aria-current="page"],
+      .pill-button {
+        background: var(--white);
+        color: var(--blue-950);
+      }
+
+      .hero {
+        background:
+          linear-gradient(rgba(6, 24, 76, 0.94), rgba(6, 24, 76, 0.94)),
+          linear-gradient(135deg, rgba(49, 84, 232, 0.4), rgba(242, 74, 195, 0.22));
+        color: var(--white);
+        padding: 76px 0 58px;
+      }
+
+      .hero-grid {
+        display: grid;
+        grid-template-columns: minmax(0, 0.92fr) minmax(320px, 0.55fr);
+        gap: 42px;
+        align-items: end;
+      }
+
+      .eyebrow {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        margin: 0 0 14px;
+        color: var(--sky);
+        font-size: 0.78rem;
+        font-weight: 950;
+        letter-spacing: 0;
+        text-transform: uppercase;
+      }
+
+      .spark {
+        width: 9px;
+        height: 9px;
+        flex: 0 0 auto;
+        border-radius: 50%;
+        background: var(--blue-800);
+        box-shadow: 0 0 0 6px rgba(49, 84, 232, 0.2);
+      }
+
+      h1,
+      h2,
+      h3,
+      p {
+        margin-top: 0;
+      }
+
+      h1 {
+        max-width: 820px;
+        margin-bottom: 18px;
+        font-size: clamp(3.2rem, 7vw, 6.7rem);
+        line-height: 0.88;
+        letter-spacing: 0;
+      }
+
+      .hero p {
+        max-width: 680px;
+        margin-bottom: 0;
+        color: rgba(255, 255, 255, 0.76);
+        font-size: 1.12rem;
+      }
+
+      .hero-card {
+        border: 1px solid rgba(255, 255, 255, 0.18);
+        border-radius: 24px;
+        background: rgba(255, 255, 255, 0.1);
+        padding: 22px;
+        box-shadow: 0 24px 70px rgba(0, 8, 28, 0.22);
+      }
+
+      .hero-card strong {
+        display: block;
+        margin-bottom: 8px;
+        color: var(--white);
+        font-size: 1.2rem;
+      }
+
+      .hero-card span {
+        display: block;
+        color: rgba(255, 255, 255, 0.7);
+      }
+
+      .section {
+        padding: 58px 0;
+      }
+
+      .section-heading {
+        display: grid;
+        grid-template-columns: minmax(0, 0.7fr) minmax(300px, 0.58fr);
+        gap: 28px;
+        align-items: end;
+        margin-bottom: 26px;
+      }
+
+      .section-heading h2 {
+        margin-bottom: 0;
+        color: var(--blue-950);
+        font-size: clamp(2.4rem, 5vw, 4.8rem);
+        line-height: 0.92;
+      }
+
+      .section-heading p,
+      .timeline-card p,
+      .leader-card p,
+      .principle p {
+        margin-bottom: 0;
+        color: var(--muted);
+      }
+
+      .timeline {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 14px;
+      }
+
+      .timeline-card,
+      .principle,
+      .leader-card {
+        border: 1px solid var(--line);
+        border-radius: 22px;
+        background: rgba(255, 255, 255, 0.82);
+        box-shadow: 0 18px 50px rgba(6, 24, 76, 0.08);
+      }
+
+      .timeline-card {
+        min-height: 210px;
+        padding: 22px;
+      }
+
+      .timeline-card span,
+      .principle span {
+        display: inline-flex;
+        margin-bottom: 20px;
+        border-radius: 999px;
+        background: rgba(49, 84, 232, 0.12);
+        color: var(--blue-950);
+        padding: 7px 10px;
+        font-size: 0.78rem;
+        font-weight: 950;
+      }
+
+      .timeline-card h3,
+      .principle h3,
+      .leader-card h3 {
+        margin-bottom: 8px;
+        color: var(--blue-950);
+        line-height: 1.08;
+      }
+
+      .principles {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 14px;
+      }
+
+      .principle {
+        padding: 22px;
+      }
+
+      .leaders {
+        display: grid;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: 14px;
+      }
+
+      .leader-card {
+        overflow: hidden;
+        padding: 16px;
+      }
+
+      .leader-photo {
+        display: grid;
+        place-items: center;
+        width: 100%;
+        aspect-ratio: 4 / 3;
+        margin-bottom: 16px;
+        border-radius: 18px;
+        background:
+          radial-gradient(circle at 78% 24%, rgba(242, 74, 195, 0.24), transparent 34%),
+          radial-gradient(circle at 20% 82%, rgba(34, 200, 255, 0.28), transparent 30%),
+          linear-gradient(135deg, #dbe8ff, #ffffff);
+        color: var(--blue-950);
+        font-size: 2rem;
+        font-weight: 950;
+      }
+
+      .leader-card p {
+        font-size: 0.9rem;
+        font-weight: 800;
+      }
+
+      .footer {
+        border-top: 1px solid var(--line);
+        padding: 28px 0;
+        color: var(--muted);
+      }
+
+      .footer .wrap {
+        display: flex;
+        justify-content: space-between;
+        gap: 18px;
+      }
+
+      @media (max-width: 980px) {
+        .hero-grid,
+        .section-heading,
+        .timeline,
+        .principles,
+        .leaders {
+          grid-template-columns: 1fr;
+        }
+
+        .leaders {
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+      }
+
+      @media (max-width: 720px) {
+        .nav {
+          align-items: flex-start;
+          flex-direction: column;
+          padding: 14px 0;
+        }
+
+        .nav-links {
+          width: 100%;
+          overflow-x: auto;
+          padding-bottom: 3px;
+        }
+
+        .hero {
+          padding: 54px 0 42px;
+        }
+
+        .leaders {
+          grid-template-columns: 1fr;
+        }
+
+        .footer .wrap {
+          flex-direction: column;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header class="topbar">
+      <nav class="nav wrap" aria-label="About H3L navigation">
+        <a class="brand" href="index.html" aria-label="H3L Showreel Studio home">
+          <img src="assets/brand/h3l-logo.png" alt="H3L logo" />
+          <span>
+            <strong>H3L Showreel Studio</strong>
+            <span>Portfolio for all of H3L</span>
+          </span>
+        </a>
+        <div class="nav-links">
+          <a href="about.html" aria-current="page">About Us</a>
+          <a href="index.html#screening">Watch</a>
+          <a href="index.html#story">Story</a>
+          <a href="index.html#reactions">Reactions</a>
+          <a href="index.html#gallery">Gallery</a>
+        </div>
+      </nav>
+    </header>
+
+    <main>
+      <section class="hero">
+        <div class="wrap hero-grid">
+          <div>
+            <p class="eyebrow"><span class="spark"></span> About Horizon3 Labs</p>
+            <h1>Built to move AI from idea to impact.</h1>
+            <p>
+              Horizon3 Labs is Unilever's global AI innovation hub in Toronto. H3L brings together
+              technical, product, design, and partnership talent to explore new opportunities, shape
+              working prototypes, and help strong ideas travel across the business.
+            </p>
+          </div>
+          <aside class="hero-card">
+            <strong>Where H3L sits</strong>
+            <span>
+              The lab is part of Unilever's broader data, analytics, and AI ecosystem. It works with
+              business teams, external partners, and Canada's AI community to turn emerging technology
+              into practical solutions.
+            </span>
+          </aside>
+        </div>
+      </section>
+
+      <section class="section" aria-labelledby="history-title">
+        <div class="wrap">
+          <div class="section-heading">
+            <div>
+              <p class="eyebrow"><span class="spark"></span> History</p>
+              <h2 id="history-title">A lab for the next horizon.</h2>
+            </div>
+            <p>
+              H3L was created to give Unilever a focused place to explore what comes next with AI:
+              not only research, and not only demos, but useful work that can become part of how the
+              business operates.
+            </p>
+          </div>
+          <div class="timeline">
+            <article class="timeline-card">
+              <span>2023</span>
+              <h3>Launched in Toronto</h3>
+              <p>
+                Unilever opened Horizon3 Labs in one of the world's strongest AI ecosystems, creating
+                a dedicated global hub for AI innovation.
+              </p>
+            </article>
+            <article class="timeline-card">
+              <span>Hybrid model</span>
+              <h3>Built for collaboration</h3>
+              <p>
+                The lab works across Unilever teams and with academics, startups, and industry partners
+                so ideas can be tested from more than one angle.
+              </p>
+            </article>
+            <article class="timeline-card">
+              <span>Now</span>
+              <h3>Focused on scale</h3>
+              <p>
+                H3L turns promising concepts into prototypes, workflows, and reusable patterns that
+                can support real business needs.
+              </p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" aria-labelledby="function-title">
+        <div class="wrap">
+          <div class="section-heading">
+            <div>
+              <p class="eyebrow"><span class="spark"></span> How we work</p>
+              <h2 id="function-title">Small teams, practical outcomes.</h2>
+            </div>
+            <p>
+              H3L works best when a clear business problem meets fast technical exploration. The goal
+              is to learn quickly, make the work visible, and move the strongest ideas toward adoption.
+            </p>
+          </div>
+          <div class="principles">
+            <article class="principle">
+              <span>Discover</span>
+              <h3>Frame the right problem</h3>
+              <p>Clarify the audience, workflow, data, and decision that the project needs to support.</p>
+            </article>
+            <article class="principle">
+              <span>Prototype</span>
+              <h3>Make the idea tangible</h3>
+              <p>Build enough of the experience to test the value, not just explain it in a slide.</p>
+            </article>
+            <article class="principle">
+              <span>Validate</span>
+              <h3>Pressure-test with users</h3>
+              <p>Use feedback, examples, and real constraints to sharpen what should move forward.</p>
+            </article>
+            <article class="principle">
+              <span>Scale</span>
+              <h3>Share what can travel</h3>
+              <p>Turn strong patterns into reusable assets, stories, and workflows for the wider business.</p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" aria-labelledby="leadership-title">
+        <div class="wrap">
+          <div class="section-heading">
+            <div>
+              <p class="eyebrow"><span class="spark"></span> Leadership</p>
+              <h2 id="leadership-title">The people guiding the lab.</h2>
+            </div>
+            <p>
+              These profiles are ready for headshots and fuller bios as the page evolves. For now,
+              they give viewers a clear view of the leadership and core capability areas behind H3L.
+            </p>
+          </div>
+          <div class="leaders">
+            <article class="leader-card">
+              <div class="leader-photo" aria-hidden="true">GB</div>
+              <h3>Gary Bogdani</h3>
+              <p>Director, Horizon3 AI Labs</p>
+            </article>
+            <article class="leader-card">
+              <div class="leader-photo" aria-hidden="true">AA</div>
+              <h3>Ayberk Aksoy</h3>
+              <p>Software Engineer</p>
+            </article>
+            <article class="leader-card">
+              <div class="leader-photo" aria-hidden="true">PJ</div>
+              <h3>Pranav Jha</h3>
+              <p>AI Innovation Lead</p>
+            </article>
+            <article class="leader-card">
+              <div class="leader-photo" aria-hidden="true">LN</div>
+              <h3>Leanne Nosworthy</h3>
+              <p>Associate Director, Program, Horizon3 Labs</p>
+            </article>
+            <article class="leader-card">
+              <div class="leader-photo" aria-hidden="true">LL</div>
+              <h3>Lucy Liu</h3>
+              <p>Data Engineer</p>
+            </article>
+            <article class="leader-card">
+              <div class="leader-photo" aria-hidden="true">JM</div>
+              <h3>Jenn MacLean</h3>
+              <p>AI Partnerships Lead</p>
+            </article>
+            <article class="leader-card">
+              <div class="leader-photo" aria-hidden="true">SX</div>
+              <h3>Su Xiaojun</h3>
+              <p>Associate Director & Machine Learning Lead</p>
+            </article>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <div class="wrap">
+        <span>H3L Showreel Studio</span>
+        <a href="index.html">Back to showreel</a>
+      </div>
+    </footer>
+  </body>
+</html>

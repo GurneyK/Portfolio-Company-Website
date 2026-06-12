@@ -4,7 +4,8 @@ This repo contains the H3L interactive video portfolio for company website hosti
 
 ## Files
 
-- `index.html` is the main page your IT team should host.
+- `index.html` is the main showreel page your IT team should host.
+- `about.html` is the About Us page linked from the hero and navigation.
 - `assets/videos/` stores project trailer videos.
 - `assets/posters/` stores poster images used by cards and the hero.
 - `assets/brand/` stores the H3L logo.

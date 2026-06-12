@@ -4,9 +4,9 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>H3L Showreel Studio</title>
-    <meta
+      <meta
       name="description"
-      content="An interactive video portfolio for H3L project trailers."
+      content="An interactive video portfolio for H3L project uploads."
     />
     <style>
       :root {
@@ -771,7 +771,7 @@
         display: grid;
         grid-template-columns: minmax(0, 1.42fr) minmax(320px, 0.58fr);
         gap: 24px;
-        align-items: stretch;
+        align-items: start;
         margin-bottom: 24px;
       }
 
@@ -784,6 +784,7 @@
       }
 
       .player-frame video {
+        display: block;
         width: 100%;
         aspect-ratio: 16 / 9;
         background: #000817;
@@ -794,7 +795,7 @@
         align-items: center;
         justify-content: space-between;
         gap: 12px;
-        padding: 14px;
+        padding: 14px 16px 10px;
         color: var(--white);
       }
 
@@ -806,6 +807,44 @@
         display: flex;
         flex-wrap: wrap;
         gap: 8px;
+      }
+
+      .video-dots {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        padding: 0 16px 16px;
+      }
+
+      .screen-card .video-dots {
+        padding: 12px 0 0;
+      }
+
+      .video-dot {
+        width: 9px;
+        height: 9px;
+        border: 0;
+        border-radius: 999px;
+        background: rgba(255, 255, 255, 0.34);
+        padding: 0;
+        cursor: pointer;
+        transition:
+          width 180ms ease,
+          background 180ms ease,
+          transform 180ms ease;
+      }
+
+      .video-dot:hover,
+      .video-dot:focus-visible {
+        transform: scale(1.18);
+        background: rgba(255, 255, 255, 0.72);
+        outline: none;
+      }
+
+      .video-dot.is-active {
+        width: 24px;
+        background: var(--sky);
       }
 
       .small-button {
@@ -1725,6 +1764,7 @@
             </span>
           </a>
           <div class="nav-links">
+            <a href="about.html">About Us</a>
             <a href="#screening">Watch</a>
             <a href="#story">Story</a>
             <a href="#reactions">Reactions</a>
@@ -1750,8 +1790,8 @@
                 watch the reel, scan the story, and follow the work in one place.
               </p>
               <div class="hero-actions">
-                <a class="primary-button" href="#screening">Enter the studio</a>
-                <button class="ghost-button" type="button" id="heroCinemaButton">Launch cinema mode</button>
+                <a class="primary-button" href="about.html">About Us</a>
+                <a class="ghost-button" href="#screening">Enter the studio</a>
               </div>
               <div class="hero-search" id="heroSearch">
                 <label class="hero-search-control" for="projectSearch">
@@ -1787,6 +1827,7 @@
                 <video id="heroPreviewVideo" muted loop playsinline autoplay preload="metadata"></video>
                 <span class="screen-overlay"></span>
               </div>
+              <div class="video-dots" id="heroVideoDots" aria-label="Featured video navigation"></div>
               <div class="screen-footer">
                 <span>
                   <h2 id="heroProjectHeadline">Reusable systems, made visible.</h2>
@@ -1800,7 +1841,7 @@
           <div class="wrap stat-panel" aria-label="Gallery stats">
             <div class="stat">
               <strong id="statCount">2</strong>
-              <span>Project trailers</span>
+              <span>Project uploads</span>
             </div>
             <div class="stat">
               <strong id="statMinutes">2:15</strong>
@@ -1870,6 +1911,7 @@
                       <button class="small-button" type="button" id="nextProjectButton">Next project</button>
                     </div>
                   </div>
+                  <div class="video-dots" id="playerVideoDots" aria-label="Screening room video navigation"></div>
                 </div>
 
                 <aside class="detail-card" aria-live="polite">
@@ -2367,6 +2409,8 @@
       const statCount = document.querySelector("#statCount");
       const statMinutes = document.querySelector("#statMinutes");
       const statReactions = document.querySelector("#statReactions");
+      const heroVideoDots = document.querySelector("#heroVideoDots");
+      const playerVideoDots = document.querySelector("#playerVideoDots");
       const heroProjectTitle = document.querySelector("#heroProjectTitle");
       const heroProjectKicker = document.querySelector("#heroProjectKicker");
       const heroProjectHeadline = document.querySelector("#heroProjectHeadline");
@@ -2770,6 +2814,21 @@
         });
       }
 
+      function renderVideoDots(target, shouldScroll) {
+        target.innerHTML = "";
+        PROJECTS.forEach((project) => {
+          const dot = document.createElement("button");
+          const isActive = project.id === state.activeId;
+          dot.className = `video-dot${isActive ? " is-active" : ""}`;
+          dot.type = "button";
+          dot.setAttribute("aria-label", `${isActive ? "Current video" : "Switch to"} ${project.title}`);
+          dot.setAttribute("aria-current", isActive ? "true" : "false");
+          dot.title = project.title;
+          dot.addEventListener("click", () => setActiveProject(project, shouldScroll));
+          target.append(dot);
+        });
+      }
+
       function renderStory(project) {
         storySummary.textContent = `${project.title} at a glance: who it supports, what it does, and how to put it into context.`;
         storyList.innerHTML = "";
@@ -2836,6 +2895,8 @@
         renderTags(project, activeTags);
         renderStory(project);
         renderDock();
+        renderVideoDots(heroVideoDots, false);
+        renderVideoDots(playerVideoDots, true);
         renderProjectComments(project);
         renderReactions();
 
@@ -3050,7 +3111,6 @@
 
       function bindPlayerActions() {
         document.querySelector("#cinemaButton").addEventListener("click", openCinema);
-        document.querySelector("#heroCinemaButton").addEventListener("click", openCinema);
         document.querySelector("#heroNextButton").addEventListener("click", () => setActiveProject(getNextProject(), false));
         document.querySelector("#copyLinkButton").addEventListener("click", copyActiveLink);
         document.querySelector("#nextProjectButton").addEventListener("click", () => setActiveProject(getNextProject()));

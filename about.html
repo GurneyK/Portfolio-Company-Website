@@ -285,13 +285,18 @@
 
       .leaders {
         display: grid;
-        grid-template-columns: repeat(4, minmax(0, 1fr));
+        grid-template-columns: repeat(24, minmax(0, 1fr));
         gap: 14px;
       }
 
       .leader-card {
+        grid-column: span 6;
         overflow: hidden;
         padding: 16px;
+      }
+
+      .leader-card:nth-child(5) {
+        grid-column: 4 / span 6;
       }
 
       .leader-photo {
@@ -338,6 +343,11 @@
 
         .leaders {
           grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+
+        .leader-card,
+        .leader-card:nth-child(5) {
+          grid-column: auto;
         }
       }
 

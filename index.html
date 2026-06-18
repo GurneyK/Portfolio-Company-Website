@@ -166,6 +166,13 @@
         display: flex;
         align-items: center;
         gap: 8px;
+        max-width: 100%;
+        overflow-x: auto;
+        scrollbar-width: none;
+      }
+
+      .nav-links::-webkit-scrollbar {
+        display: none;
       }
 
       .nav-links a {
@@ -706,7 +713,7 @@
         display: grid;
         grid-template-columns: repeat(2, minmax(0, 1fr));
         gap: 16px;
-        margin-bottom: 26px;
+        margin-bottom: 14px;
       }
 
       .dock-card {
@@ -765,6 +772,77 @@
         display: block;
         color: var(--muted);
         font-size: 0.9rem;
+      }
+
+      .dock-page-controls,
+      .gallery-controls,
+      .pager-buttons {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .dock-page-controls {
+        justify-content: flex-end;
+        margin: 0 0 28px;
+      }
+
+      .gallery-controls {
+        flex-wrap: wrap;
+        justify-content: flex-end;
+      }
+
+      .pager-buttons {
+        flex: 0 0 auto;
+      }
+
+      .page-button {
+        position: relative;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 42px;
+        height: 42px;
+        border: 1px solid rgba(3, 38, 111, 0.16);
+        border-radius: 999px;
+        background: rgba(255, 255, 255, 0.9);
+        color: var(--blue-950);
+        box-shadow: 0 14px 30px rgba(38, 52, 201, 0.12);
+        transition:
+          transform 180ms ease,
+          border-color 180ms ease,
+          background 180ms ease,
+          color 180ms ease,
+          opacity 180ms ease;
+      }
+
+      .page-button:hover:not(:disabled) {
+        transform: translateY(-2px);
+        border-color: var(--blue-800);
+        background: var(--blue-950);
+        color: var(--white);
+      }
+
+      .page-button:disabled {
+        cursor: not-allowed;
+        opacity: 0.38;
+        box-shadow: none;
+      }
+
+      .page-button span {
+        display: block;
+        font-size: 1.55rem;
+        font-weight: 950;
+        line-height: 1;
+        transform: translateY(-1px);
+      }
+
+      .page-status {
+        min-width: 112px;
+        color: var(--muted);
+        font-size: 0.86rem;
+        font-weight: 900;
+        text-align: center;
       }
 
       .theatre {
@@ -1728,6 +1806,11 @@
           flex-direction: column;
         }
 
+        .dock-page-controls,
+        .gallery-controls {
+          justify-content: flex-start;
+        }
+
         .player-bar {
           grid-template-columns: 1fr;
         }
@@ -1904,6 +1987,15 @@
               </div>
 
               <div class="project-dock" id="projectDock" aria-label="Select a project"></div>
+              <div class="dock-page-controls" aria-label="Screening uploads pages">
+                <button class="page-button" type="button" data-page-target="dock" data-direction="-1" aria-label="Previous screening uploads">
+                  <span aria-hidden="true">&#8249;</span>
+                </button>
+                <span class="page-status" id="dockPageLabel">Uploads 1-6</span>
+                <button class="page-button" type="button" data-page-target="dock" data-direction="1" aria-label="Next screening uploads">
+                  <span aria-hidden="true">&#8250;</span>
+                </button>
+              </div>
 
               <div class="theatre">
                 <div class="player-frame">
@@ -2051,8 +2143,16 @@
                   <button class="filter-button" type="button" data-filter="ai">AI</button>
                   <button class="filter-button" type="button" data-filter="business">Business</button>
                 </div>
-                <div class="carousel-controls">
+                <div class="gallery-controls">
                   <span class="project-count" id="projectCountLabel">3 projects showing</span>
+                  <div class="pager-buttons" aria-label="Project wall pages">
+                    <button class="page-button" type="button" data-page-target="grid" data-direction="-1" aria-label="Previous project uploads">
+                      <span aria-hidden="true">&#8249;</span>
+                    </button>
+                    <button class="page-button" type="button" data-page-target="grid" data-direction="1" aria-label="Next project uploads">
+                      <span aria-hidden="true">&#8250;</span>
+                    </button>
+                  </div>
                 </div>
               </div>
 
@@ -2271,6 +2371,39 @@
           ]
         },
         {
+          id: "axon",
+          title: "Axon",
+          category: "ai",
+          video: "assets/videos/axon-full.mp4",
+          poster: "assets/posters/axon-poster.jpg",
+          runtime: "1:25",
+          seconds: 85,
+          accent: "#22c8ff",
+          accent2: "#7b61ff",
+          headline: "Agent performance, visible at a glance.",
+          kicker: "Project upload",
+          purpose: "A project upload for Axon and its agent performance experience.",
+          people: "H3L contributors",
+          outcome: "A clear view of how agent activity, progress, and performance can be understood in real time.",
+          tags: ["AI", "Agent visibility", "Performance view"],
+          description:
+            "A project upload for Axon, showing how agent performance can be made visible for technical and business viewers in one shared experience.",
+          chapters: [
+            {
+              title: "Who it supports",
+              body: "For H3L viewers who need a clearer way to understand how an agent is performing, what it is doing, and where attention may be needed."
+            },
+            {
+              title: "What it does",
+              body: "Axon frames agent activity and performance in a visual experience so technical and business stakeholders can look at the same operating picture."
+            },
+            {
+              title: "How to use it",
+              body: "Use the reel to start conversations about agent monitoring, shared visibility, and the signals people need before trusting an agent in active work."
+            }
+          ]
+        },
+        {
           id: "dsf",
           title: "Nexus Agent Builder",
           category: "ai",
@@ -2371,6 +2504,8 @@
         }
       ];
 
+      const PAGE_SIZE = 6;
+
       const COMMENT_SETTINGS = {
         storageKey: "h3l-showreel-comments-v1",
         endpoint: ""
@@ -2381,6 +2516,8 @@
         filter: "all",
         search: "",
         comments: [],
+        dockPage: 0,
+        gridPage: 0,
         reactionIndex: 0,
         searchIndex: -1
       };
@@ -2393,6 +2530,7 @@
       const projectSearch = document.querySelector("#projectSearch");
       const searchResults = document.querySelector("#searchResults");
       const projectCountLabel = document.querySelector("#projectCountLabel");
+      const dockPageLabel = document.querySelector("#dockPageLabel");
       const activeVideo = document.querySelector("#activeVideo");
       const heroPreviewVideo = document.querySelector("#heroPreviewVideo");
       const activeTitle = document.querySelector("#activeTitle");
@@ -2475,6 +2613,41 @@
         });
       }
 
+      function getMaxPage(totalItems) {
+        return Math.max(Math.ceil(totalItems / PAGE_SIZE) - 1, 0);
+      }
+
+      function clampPage(page, totalItems) {
+        return Math.min(Math.max(page, 0), getMaxPage(totalItems));
+      }
+
+      function getPagedItems(items, page) {
+        const start = page * PAGE_SIZE;
+        return items.slice(start, start + PAGE_SIZE);
+      }
+
+      function formatPageRange(page, totalItems, noun = "uploads") {
+        if (!totalItems) {
+          return `0 ${noun}`;
+        }
+
+        const start = page * PAGE_SIZE + 1;
+        const end = Math.min((page + 1) * PAGE_SIZE, totalItems);
+        return `${start}-${end} of ${totalItems} ${noun}`;
+      }
+
+      function updatePageControls(target, totalItems, currentPage, labelElement) {
+        const maxPage = getMaxPage(totalItems);
+        document.querySelectorAll(`[data-page-target="${target}"]`).forEach((button) => {
+          const direction = Number(button.dataset.direction);
+          button.disabled = direction < 0 ? currentPage === 0 : currentPage >= maxPage;
+        });
+
+        if (labelElement) {
+          labelElement.textContent = formatPageRange(currentPage, totalItems);
+        }
+      }
+
       function getSearchMatches(query) {
         const normalizedQuery = normalize(query);
         if (!normalizedQuery) {
@@ -2533,6 +2706,7 @@
       function selectSearchProject(project) {
         projectSearch.value = project.title;
         state.search = normalize(project.title);
+        state.gridPage = 0;
         renderGrid();
         setActiveProject(project, false);
         closeSearchResults();
@@ -2852,8 +3026,10 @@
       }
 
       function renderDock() {
+        state.dockPage = clampPage(state.dockPage, PROJECTS.length);
+        const dockProjects = getPagedItems(PROJECTS, state.dockPage);
         projectDock.innerHTML = "";
-        PROJECTS.forEach((project) => {
+        dockProjects.forEach((project) => {
           const button = document.createElement("button");
           button.className = "dock-card";
           button.type = "button";
@@ -2869,10 +3045,12 @@
           button.addEventListener("click", () => setActiveProject(project, true));
           projectDock.append(button);
         });
+        updatePageControls("dock", PROJECTS.length, state.dockPage, dockPageLabel);
       }
 
       function setActiveProject(project, shouldScroll = true, updateHash = true) {
         state.activeId = project.id;
+        state.dockPage = Math.floor(Math.max(PROJECTS.findIndex((item) => item.id === project.id), 0) / PAGE_SIZE);
         setAccent(project);
         activeVideo.pause();
         activeVideo.poster = project.poster;
@@ -2954,16 +3132,41 @@
 
       function renderGrid() {
         const visibleProjects = getVisibleProjects();
+        state.gridPage = clampPage(state.gridPage, visibleProjects.length);
+        const pageProjects = getPagedItems(visibleProjects, state.gridPage);
         projectGrid.innerHTML = "";
-        visibleProjects.forEach((project) => projectGrid.append(makeProjectCard(project)));
-        projectCountLabel.textContent = `${visibleProjects.length} project${visibleProjects.length === 1 ? "" : "s"} showing`;
+        pageProjects.forEach((project) => projectGrid.append(makeProjectCard(project)));
+        projectCountLabel.textContent = formatPageRange(state.gridPage, visibleProjects.length);
+        updatePageControls("grid", visibleProjects.length, state.gridPage);
         emptyState.classList.toggle("is-visible", visibleProjects.length === 0);
+      }
+
+      function bindPaging() {
+        document.querySelectorAll("[data-page-target]").forEach((button) => {
+          button.addEventListener("click", () => {
+            const target = button.dataset.pageTarget;
+            const direction = Number(button.dataset.direction);
+
+            if (target === "dock") {
+              state.dockPage = clampPage(state.dockPage + direction, PROJECTS.length);
+              renderDock();
+              return;
+            }
+
+            if (target === "grid") {
+              const visibleProjects = getVisibleProjects();
+              state.gridPage = clampPage(state.gridPage + direction, visibleProjects.length);
+              renderGrid();
+            }
+          });
+        });
       }
 
       function bindFilters() {
         document.querySelectorAll("[data-filter]").forEach((button) => {
           button.addEventListener("click", () => {
             state.filter = button.dataset.filter;
+            state.gridPage = 0;
             document
               .querySelectorAll("[data-filter]")
               .forEach((item) => item.setAttribute("aria-pressed", String(item === button)));
@@ -2976,6 +3179,7 @@
         projectSearch.addEventListener("input", (event) => {
           state.search = normalize(event.target.value);
           state.searchIndex = -1;
+          state.gridPage = 0;
           renderGrid();
           renderSearchResults();
         });
@@ -3241,6 +3445,7 @@
       loadComments();
       updateStats();
       bindFilters();
+      bindPaging();
       bindSearch();
       bindComments();
       bindCarousels();
